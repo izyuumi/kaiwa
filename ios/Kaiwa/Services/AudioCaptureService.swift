@@ -7,6 +7,7 @@ protocol AudioCaptureDelegate: AnyObject, Sendable {
 class AudioCaptureService {
     private let engine = AVAudioEngine()
     private var isCapturing = false
+    private var hasInstalledTap = false
     weak var delegate: AudioCaptureDelegate?
 
     func start() throws {
@@ -14,10 +15,18 @@ class AudioCaptureService {
 
         let session = AVAudioSession.sharedInstance()
         try session.setCategory(.playAndRecord, mode: .default, options: [.defaultToSpeaker])
+        try session.setPreferredSampleRate(16000)
+        try? session.setPreferredInputNumberOfChannels(1)
         try session.setActive(true)
 
         let inputNode = engine.inputNode
         let inputFormat = inputNode.outputFormat(forBus: 0)
+        guard Self.isValid(format: inputFormat) else {
+            throw AudioError.invalidInputFormat(
+                sampleRate: inputFormat.sampleRate,
+                channels: inputFormat.channelCount
+            )
+        }
 
         // Target: 16kHz mono PCM s16le
         guard let targetFormat = AVAudioFormat(
@@ -31,6 +40,11 @@ class AudioCaptureService {
 
         guard let converter = AVAudioConverter(from: inputFormat, to: targetFormat) else {
             throw AudioError.converterError
+        }
+
+        if hasInstalledTap {
+            inputNode.removeTap(onBus: 0)
+            hasInstalledTap = false
         }
 
         inputNode.installTap(onBus: 0, bufferSize: 4096, format: inputFormat) { [weak self] buffer, _ in
@@ -62,16 +76,21 @@ class AudioCaptureService {
                 self.delegate?.audioCaptureDidReceive(buffer: data)
             }
         }
+        hasInstalledTap = true
 
         try engine.start()
         isCapturing = true
     }
 
     func stop() {
-        guard isCapturing else { return }
-        engine.inputNode.removeTap(onBus: 0)
-        engine.stop()
-        isCapturing = false
+        if hasInstalledTap {
+            engine.inputNode.removeTap(onBus: 0)
+            hasInstalledTap = false
+        }
+        if isCapturing {
+            engine.stop()
+            isCapturing = false
+        }
 
         try? AVAudioSession.sharedInstance().setActive(false)
     }
@@ -80,11 +99,20 @@ class AudioCaptureService {
 enum AudioError: Error, LocalizedError {
     case formatError
     case converterError
+    case invalidInputFormat(sampleRate: Double, channels: AVAudioChannelCount)
 
     var errorDescription: String? {
         switch self {
         case .formatError: return "Failed to create audio format"
         case .converterError: return "Failed to create audio converter"
+        case .invalidInputFormat(let sampleRate, let channels):
+            return "Invalid input audio format (sampleRate: \(sampleRate), channels: \(channels))"
         }
+    }
+}
+
+private extension AudioCaptureService {
+    static func isValid(format: AVAudioFormat) -> Bool {
+        format.sampleRate > 0 && format.channelCount > 0
     }
 }

@@ -75,6 +75,14 @@ struct SessionView: View {
                 controlButton
                 Spacer()
             }
+            if case .error(let message) = viewModel.state {
+                Text(message)
+                    .font(.caption)
+                    .foregroundColor(.red.opacity(0.9))
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 24)
+                    .padding(.top, 12)
+            }
             Spacer()
         }
     }

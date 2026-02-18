@@ -30,9 +30,18 @@ class SessionViewModel: ObservableObject {
     }
 
     func startSession() async {
+        if case .connecting = state { return }
+        if case .listening = state { return }
+
         state = .connecting
+        interimText = ""
+        interimLanguage = ""
 
         do {
+            // Reset any partial state from previous failed attempts.
+            audioService.stop()
+            await sonioxService.disconnect()
+
             // Get auth from Convex
             let auth = try await convexService.getSessionAuth()
 
@@ -48,7 +57,7 @@ class SessionViewModel: ObservableObject {
 
             state = .listening
         } catch {
-            state = .error(error.localizedDescription)
+            state = .error(Self.startErrorMessage(from: error))
         }
     }
 
@@ -83,9 +92,21 @@ class SessionViewModel: ObservableObject {
     }
 }
 
+private extension SessionViewModel {
+    static func startErrorMessage(from error: Error) -> String {
+        let message = error.localizedDescription
+        if message.contains("SONIOX_API_KEY") {
+            return "Backend is missing SONIOX_API_KEY."
+        }
+        return message
+    }
+}
+
 extension SessionViewModel: AudioCaptureDelegate {
     nonisolated func audioCaptureDidReceive(buffer: Data) {
-        sonioxService.sendAudio(buffer)
+        Task { @MainActor in
+            self.sonioxService.sendAudio(buffer)
+        }
     }
 }
 

@@ -2,3 +2,11 @@ node_modules/
 dist/
 .env
 .env.local
+
+# iOS
+ios/Kaiwa/Config.plist
+ios/build/
+ios/DerivedData/
+*.xcuserdata
+*.xcworkspace
+!ios/Kaiwa.xcodeproj

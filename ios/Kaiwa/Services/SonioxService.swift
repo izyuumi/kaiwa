@@ -26,9 +26,8 @@ final class SonioxService: @unchecked Sendable {
         let session = URLSession(configuration: .default)
         webSocketTask = session.webSocketTask(with: url)
         webSocketTask?.resume()
-        isConnected = true
 
-        // Send config
+        // Send config — if this succeeds the WebSocket handshake completed
         let config: [String: Any] = [
             "api_key": apiKey,
             "model": model,
@@ -43,16 +42,45 @@ final class SonioxService: @unchecked Sendable {
         let configString = String(data: configData, encoding: .utf8)!
         try await webSocketTask?.send(.string(configString))
 
-        // Start receiving
+        // Wait for the first server response to confirm the connection is live
+        guard let task = webSocketTask else {
+            throw SonioxError.serverError("WebSocket task deallocated")
+        }
+        let firstMessage = try await task.receive()
+        switch firstMessage {
+        case .string(let text):
+            if text.contains("\"error_code\"") {
+                throw SonioxError.serverError(text)
+            }
+            // Valid first response — connection confirmed
+            parseResponse(text)
+        case .data(let data):
+            if let text = String(data: data, encoding: .utf8) {
+                if text.contains("\"error_code\"") {
+                    throw SonioxError.serverError(text)
+                }
+                parseResponse(text)
+            }
+        @unknown default:
+            break
+        }
+
+        isConnected = true
+
+        // Start receiving loop now that connection is confirmed
         Task { [weak self] in
             await self?.receiveLoop()
         }
     }
 
     func sendAudio(_ data: Data) {
-        guard isConnected, let task = webSocketTask else { return }
+        guard isConnected, let task = webSocketTask else {
+            // Not connected yet or already disconnected — drop audio silently
+            return
+        }
         task.send(.data(data)) { [weak self] error in
             if let error = error {
+                self?.isConnected = false
                 self?.delegate?.sonioxDidEncounterError(error)
             }
         }

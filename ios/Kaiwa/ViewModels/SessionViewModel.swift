@@ -104,9 +104,7 @@ private extension SessionViewModel {
 
 extension SessionViewModel: AudioCaptureDelegate {
     nonisolated func audioCaptureDidReceive(buffer: Data) {
-        Task { @MainActor in
-            self.sonioxService.sendAudio(buffer)
-        }
+        sonioxService.sendAudio(buffer)
     }
 }
 

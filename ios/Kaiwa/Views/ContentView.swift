@@ -1,17 +1,69 @@
 import SwiftUI
+import ClerkKit
 
 struct ContentView: View {
+    @Environment(Clerk.self) private var clerk
     @StateObject private var viewModel = SessionViewModel()
     @State private var showingSetup = true
+    @State private var showingSignIn = false
 
     var body: some View {
-        if showingSetup {
-            SetupView(viewModel: viewModel) {
-                showingSetup = false
-            }
-        } else {
-            SessionView(viewModel: viewModel) {
-                showingSetup = true
+        Group {
+            if clerk.user == nil {
+                VStack(spacing: 24) {
+                    Spacer()
+
+                    Image(systemName: "waveform.circle.fill")
+                        .font(.system(size: 80))
+                        .foregroundColor(.green)
+
+                    Text("会話")
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+
+                    Text("Real-time Translation")
+                        .font(.title3)
+                        .foregroundColor(.secondary)
+
+                    Button(action: { showingSignIn = true }) {
+                        Text("Sign In")
+                            .font(.headline)
+                            .foregroundColor(.black)
+                            .frame(maxWidth: 280)
+                            .padding()
+                            .background(Color.green)
+                            .cornerRadius(12)
+                    }
+
+                    Spacer()
+                }
+                .sheet(isPresented: $showingSignIn) {
+                    AuthSheet()
+                }
+            } else {
+                ZStack(alignment: .topTrailing) {
+                    if showingSetup {
+                        SetupView(viewModel: viewModel) {
+                            showingSetup = false
+                        }
+                    } else {
+                        SessionView(viewModel: viewModel) {
+                            showingSetup = true
+                        }
+                    }
+
+                    // Sign out button
+                    Button(action: {
+                        Task {
+                            try? await clerk.auth.signOut()
+                        }
+                    }) {
+                        Image(systemName: "person.crop.circle.badge.xmark")
+                            .font(.title3)
+                            .foregroundColor(.green)
+                            .padding(12)
+                    }
+                }
             }
         }
     }

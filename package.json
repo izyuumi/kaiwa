@@ -1,0 +1,25 @@
+{
+  "name": "kaiwa",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "npx convex dev",
+    "deploy": "npx convex deploy"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/izyuumi/kaiwa.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/izyuumi/kaiwa/issues"
+  },
+  "homepage": "https://github.com/izyuumi/kaiwa#readme",
+  "dependencies": {
+    "convex": "^1.31.7",
+    "openai": "^6.22.0"
+  }
+}

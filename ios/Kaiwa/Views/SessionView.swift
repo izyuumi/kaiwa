@@ -9,16 +9,19 @@ struct SessionView: View {
             Color.black.ignoresSafeArea()
 
             GeometryReader { geo in
+                let dividerHeight: CGFloat = 4
+                let halfHeight = (geo.size.height - dividerHeight) / 2
+
                 VStack(spacing: 0) {
-                    // Top half (rotated 180°)
-                    topHalf(height: geo.size.height / 2)
+                    // Top half is for the opposite user, so rotate 180°.
+                    topHalf(height: halfHeight)
                         .rotationEffect(.degrees(180))
 
                     // Divider
                     dividerBar
 
                     // Bottom half
-                    bottomHalf(height: geo.size.height / 2)
+                    bottomHalf(height: halfHeight)
                 }
             }
 
@@ -40,7 +43,7 @@ struct SessionView: View {
             showJapanese: isJP,
             isListening: isListening
         )
-        .frame(height: height - 2)
+        .frame(height: height)
     }
 
     private func bottomHalf(height: CGFloat) -> some View {
@@ -53,7 +56,7 @@ struct SessionView: View {
             showJapanese: isJP,
             isListening: isListening
         )
-        .frame(height: height - 2)
+        .frame(height: height)
     }
 
     private var dividerBar: some View {

@@ -13,10 +13,10 @@ actor ConvexService {
         guard let session else {
             throw ConvexError.requestFailed("Not authenticated — no active Clerk session")
         }
-        guard let tokenResource = try await session.getToken(.init(template: "convex")) else {
+        guard let token = try await session.getToken(.init(template: "convex")) else {
             throw ConvexError.requestFailed("Failed to get Clerk JWT for Convex")
         }
-        return tokenResource.jwt
+        return token
     }
 
     func getSessionAuth() async throws -> SessionAuthResponse {

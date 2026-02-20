@@ -4,5 +4,7 @@
 <dict>
 	<key>ConvexURL</key>
 	<string>https://hushed-meadowlark-749.eu-west-1.convex.cloud</string>
+	<key>ClerkPublishableKey</key>
+	<string>pk_test_dmFsdWVkLWpheWJpcmQtNzcuY2xlcmsuYWNjb3VudHMuZGV2JA</string>
 </dict>
 </plist>

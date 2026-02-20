@@ -2,12 +2,15 @@ import Foundation
 
 enum ConfigService {
     static var convexURL: String {
+        "https://hushed-meadowlark-749.eu-west-1.convex.cloud"
+    }
+
+    static var clerkPublishableKey: String {
         guard let path = Bundle.main.path(forResource: "Config", ofType: "plist"),
               let dict = NSDictionary(contentsOfFile: path),
-              let url = dict["ConvexURL"] as? String,
-              !url.isEmpty else {
-            fatalError("Config.plist missing or ConvexURL not set.")
+              let key = dict["ClerkPublishableKey"] as? String else {
+            fatalError("Config.plist missing or ClerkPublishableKey not set.")
         }
-        return url
+        return key
     }
 }

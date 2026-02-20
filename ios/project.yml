@@ -6,6 +6,10 @@ options:
   xcodeVersion: "16.0"
 settings:
   SWIFT_VERSION: "5.9"
+packages:
+  ClerkKit:
+    url: https://github.com/clerk/clerk-ios
+    from: "1.0.0"
 targets:
   Kaiwa:
     type: application
@@ -20,6 +24,11 @@ targets:
       CURRENT_PROJECT_VERSION: "4"
       TARGETED_DEVICE_FAMILY: "1,2"
       SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD: "NO"
+    dependencies:
+      - package: ClerkKit
+        product: ClerkKit
+      - package: ClerkKit
+        product: ClerkKitUI
     info:
       path: Kaiwa/Info.plist
       properties:

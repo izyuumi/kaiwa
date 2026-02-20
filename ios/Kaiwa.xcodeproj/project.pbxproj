@@ -21,9 +21,6 @@
 		D0141A46CE67E2DAE966101B /* ConfigService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 759FD257FF4BA335DBCB3785 /* ConfigService.swift */; };
 		D0D6AF5F3113A4C62B93CFCA /* SessionAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E281ADE59C76E5837B18E0F /* SessionAuth.swift */; };
 		D1D213316C585EEC6179D1AE /* AudioCaptureService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86758C4B89A5D23BB05B5525 /* AudioCaptureService.swift */; };
-		3A272789DA1408B4ABB0EAF4 /* AuthSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC98AF3C3DA66CEE624E4233 /* AuthSheet.swift */; };
-		6FB543AA98DA99447AAE70E9 /* ClerkKitUI in Frameworks */ = {isa = PBXBuildFile; productRef = 6113D809F20AB53152BC4470 /* ClerkKitUI */; };
-		87C4F97A0419F7EF9395532B /* ClerkKit in Frameworks */ = {isa = PBXBuildFile; productRef = 114B18EBF620814DB3C447F7 /* ClerkKit */; };
 		EB2321780B0BC33529C96AB9 /* Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2CEADE429A21658E7E1E298E /* Config.plist */; };
 /* End PBXBuildFile section */
 
@@ -45,7 +42,6 @@
 		D91D5E339F11D3B77C34A7E0 /* SetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupView.swift; sourceTree = "<group>"; };
 		F8B5018EF367CCE379CB47C9 /* ConversationEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationEntry.swift; sourceTree = "<group>"; };
 		2CEADE429A21658E7E1E298E /* Config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Config.plist; sourceTree = "<group>"; };
-		DC98AF3C3DA66CEE624E4233 /* AuthSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSheet.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 
@@ -54,8 +50,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				87C4F97A0419F7EF9395532B /* ClerkKit in Frameworks */,
-				6FB543AA98DA99447AAE70E9 /* ClerkKitUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,7 +59,6 @@
 		0AAB0884E7B729EBE3C3A588 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				DC98AF3C3DA66CEE624E4233 /* AuthSheet.swift */,
 				22169ACA9FE0535F118D7167 /* ContentView.swift */,
 				CF5E2846244019BC7288BEB7 /* SessionView.swift */,
 				D91D5E339F11D3B77C34A7E0 /* SetupView.swift */,
@@ -151,8 +144,6 @@
 			);
 			name = Kaiwa;
 			packageProductDependencies = (
-				114B18EBF620814DB3C447F7 /* ClerkKit */,
-				6113D809F20AB53152BC4470 /* ClerkKitUI */,
 			);
 			productName = Kaiwa;
 			productReference = 58C25253E0FB0EC45FE2043F /* Kaiwa.app */;
@@ -177,7 +168,6 @@
 			);
 			mainGroup = 994BE6106EB7422322CA7DCF;
 			packageReferences = (
-				0F02287601A55344F74DA5B2 /* XCRemoteSwiftPackageReference "clerk-ios" */,
 			);
 			minimizedProjectReferenceProxies = 1;
 			projectDirPath = "";
@@ -206,7 +196,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3A272789DA1408B4ABB0EAF4 /* AuthSheet.swift in Sources */,
 				D1D213316C585EEC6179D1AE /* AudioCaptureService.swift in Sources */,
 				D0141A46CE67E2DAE966101B /* ConfigService.swift in Sources */,
 				5C07A19AB317C18F63642017 /* ContentView.swift in Sources */,
@@ -409,29 +398,6 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		0F02287601A55344F74DA5B2 /* XCRemoteSwiftPackageReference "clerk-ios" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/clerk/clerk-ios";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		114B18EBF620814DB3C447F7 /* ClerkKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 0F02287601A55344F74DA5B2 /* XCRemoteSwiftPackageReference "clerk-ios" */;
-			productName = ClerkKit;
-		};
-		6113D809F20AB53152BC4470 /* ClerkKitUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 0F02287601A55344F74DA5B2 /* XCRemoteSwiftPackageReference "clerk-ios" */;
-			productName = ClerkKitUI;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = BEC546D2ACC3D7B05609CED2 /* Project object */;
 }

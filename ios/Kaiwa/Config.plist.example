@@ -4,7 +4,5 @@
 <dict>
 	<key>ConvexURL</key>
 	<string>https://your-deployment.convex.cloud</string>
-	<key>ClerkPublishableKey</key>
-	<string>pk_test_your-publishable-key</string>
 </dict>
 </plist>

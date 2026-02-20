@@ -19,6 +19,8 @@ targets:
     settings:
       INFOPLIST_FILE: Kaiwa/Info.plist
       PRODUCT_BUNDLE_IDENTIFIER: com.kaiwa.app
+      DEVELOPMENT_TEAM: AN5KM8QGEF
+      CODE_SIGN_STYLE: Automatic
       MARKETING_VERSION: "1.0.0"
       CURRENT_PROJECT_VERSION: "1"
       TARGETED_DEVICE_FAMILY: "1,2"

@@ -408,7 +408,6 @@
 			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
-	};
 
 /* Begin XCRemoteSwiftPackageReference section */
 		0F02287601A55344F74DA5B2 /* XCRemoteSwiftPackageReference "clerk-ios" */ = {
@@ -433,5 +432,6 @@
 			productName = ClerkKitUI;
 		};
 /* End XCSwiftPackageProductDependency section */
+	};
 	rootObject = BEC546D2ACC3D7B05609CED2 /* Project object */;
 }

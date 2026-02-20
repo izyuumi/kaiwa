@@ -2,9 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>ConvexURL</key>
-	<string>https://kindred-bat-736.eu-west-1.convex.cloud</string>
-	<key>ClerkPublishableKey</key>
-	<string>pk_live_Y2xlcmsua2Fpd2EueXVtaS50byQ</string>
+	<key>com.apple.developer.associated-domains</key>
+	<array>
+		<string>applinks:clerk.kaiwa.yumi.to</string>
+		<string>webcredentials:clerk.kaiwa.yumi.to</string>
+	</array>
 </dict>
 </plist>

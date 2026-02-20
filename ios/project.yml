@@ -34,8 +34,8 @@ targets:
       properties:
         CFBundleName: Kaiwa
         CFBundleDisplayName: Kaiwa
-        CFBundleShortVersionString: "0.1.0"
-        CFBundleVersion: "4"
+        CFBundleShortVersionString: "${MARKETING_VERSION}"
+        CFBundleVersion: "${CURRENT_PROJECT_VERSION}"
         UILaunchScreen: {}
         UISupportedInterfaceOrientations:
           - UIInterfaceOrientationLandscapeLeft

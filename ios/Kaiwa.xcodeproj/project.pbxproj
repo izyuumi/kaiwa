@@ -31,6 +31,7 @@
 		22169ACA9FE0535F118D7167 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		2E281ADE59C76E5837B18E0F /* SessionAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionAuth.swift; sourceTree = "<group>"; };
 		392B8F61123F16298F63A250 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		A1B2C3D4E5F60718A1B2C3D4 /* Kaiwa.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Kaiwa.entitlements; sourceTree = "<group>"; };
 		41FAAA2AAF9F7C64C5E2F2BE /* SessionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionViewModel.swift; sourceTree = "<group>"; };
 		58C25253E0FB0EC45FE2043F /* Kaiwa.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kaiwa.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		759FD257FF4BA335DBCB3785 /* ConfigService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigService.swift; sourceTree = "<group>"; };
@@ -89,6 +90,7 @@
 				2CEADE429A21658E7E1E298E /* Config.plist */,
 				8A100E10EA34F0AA4E77A180 /* Config.plist.example */,
 				392B8F61123F16298F63A250 /* Info.plist */,
+				A1B2C3D4E5F60718A1B2C3D4 /* Kaiwa.entitlements */,
 				A97712E61834A04073550E2F /* KaiwaApp.swift */,
 				8BCCE8E38817B823C42A9AC4 /* Models */,
 				2C687C5DBA4E84FC446EBC40 /* Services */,
@@ -348,6 +350,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Kaiwa/Kaiwa.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = AN5KM8QGEF;
@@ -369,6 +372,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Kaiwa/Kaiwa.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = AN5KM8QGEF;

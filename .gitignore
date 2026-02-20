@@ -9,3 +9,4 @@ ios/DerivedData/
 *.xcuserdata
 *.xcworkspace
 !ios/Kaiwa.xcodeproj
+.DS_Store

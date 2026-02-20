@@ -4,7 +4,6 @@ dist/
 .env.local
 
 # iOS
-ios/Kaiwa/Config.plist
 ios/build/
 ios/DerivedData/
 *.xcuserdata

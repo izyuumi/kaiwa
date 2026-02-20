@@ -1,5 +1,5 @@
 {
-  "originHash" : "",
+  "originHash" : "e6155bcb55384e0fcde0a157fe2ab6f9ec771195d96ecdac0026f000177a4685",
   "pins" : [
     {
       "identity" : "clerk-ios",
@@ -8,15 +8,6 @@
       "state" : {
         "revision" : "f0806ec7311014e832148ed7851400be0f689469",
         "version" : "1.0.1"
-      }
-    },
-    {
-      "identity" : "mocker",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/WeTransfer/Mocker",
-      "state" : {
-        "revision" : "441a2728acd5bd834898224a08e8c35577d2f76f",
-        "version" : "3.0.2"
       }
     },
     {
@@ -33,17 +24,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/marmelroy/PhoneNumberKit",
       "state" : {
-        "revision" : "6701aab1cd32e5e5c3fd7d13b6bf426ae93bc281",
+        "revision" : "e0f91a22bbc96a67430e1cff502f943a67a97ed3",
         "version" : "4.2.5"
-      }
-    },
-    {
-      "identity" : "swift-concurrency-extras",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/pointfreeco/swift-concurrency-extras",
-      "state" : {
-        "revision" : "5a3825302b1a0d744183200915a47b508c828e6f",
-        "version" : "1.3.2"
       }
     }
   ],

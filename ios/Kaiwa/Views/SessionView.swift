@@ -3,6 +3,7 @@ import SwiftUI
 struct SessionView: View {
     @ObservedObject var viewModel: SessionViewModel
     let onBack: () -> Void
+    @State private var showingShareSheet = false
 
     var body: some View {
         ZStack {
@@ -75,7 +76,12 @@ struct SessionView: View {
             Spacer()
             HStack {
                 Spacer()
+                shareButton
+                Spacer()
                 controlButton
+                Spacer()
+                // Invisible spacer to balance layout
+                Color.clear.frame(width: 44, height: 44)
                 Spacer()
             }
             if case .error(let message) = viewModel.state {
@@ -87,6 +93,24 @@ struct SessionView: View {
                     .padding(.top, 12)
             }
             Spacer()
+        }
+    }
+
+    private var shareButton: some View {
+        Button {
+            showingShareSheet = true
+        } label: {
+            Image(systemName: "square.and.arrow.up")
+                .font(.title3)
+                .foregroundColor(.white.opacity(0.7))
+                .frame(width: 44, height: 44)
+                .background(Circle().fill(Color.white.opacity(0.08)))
+        }
+        .disabled(viewModel.entries.isEmpty)
+        .opacity(viewModel.entries.isEmpty ? 0.3 : 1.0)
+        .sheet(isPresented: $showingShareSheet) {
+            let text = viewModel.exportTranscript()
+            ShareSheet(items: [text])
         }
     }
 

@@ -4,6 +4,7 @@ struct SetupView: View {
     @ObservedObject var viewModel: SessionViewModel
     let isApproved: Bool
     let onStart: () -> Void
+    @AppStorage("kaiwa.totalSessions") private var totalSessions: Int = 0
 
     var body: some View {
         ZStack {
@@ -56,6 +57,12 @@ struct SetupView: View {
                         .font(.footnote)
                         .foregroundColor(.gray)
                         .multilineTextAlignment(.center)
+                }
+
+                if totalSessions > 0 {
+                    Text("\(totalSessions) conversation\(totalSessions == 1 ? "" : "s") completed")
+                        .font(.caption)
+                        .foregroundColor(.gray.opacity(0.7))
                 }
             }
         }

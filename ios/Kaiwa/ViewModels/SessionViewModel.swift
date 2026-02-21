@@ -84,6 +84,12 @@ class SessionViewModel: ObservableObject {
     func stopSession() async {
         audioService.stop()
         await sonioxService.disconnect()
+        // Increment session count if we had any conversation entries
+        if !entries.isEmpty {
+            let key = "kaiwa.totalSessions"
+            let current = UserDefaults.standard.integer(forKey: key)
+            UserDefaults.standard.set(current + 1, forKey: key)
+        }
         state = .idle
         interimText = ""
     }

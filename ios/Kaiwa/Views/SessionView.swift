@@ -27,6 +27,25 @@ struct SessionView: View {
 
             // Controls overlay
             controlsOverlay
+
+            // Reconnecting banner
+            if viewModel.isReconnecting {
+                VStack {
+                    HStack(spacing: 8) {
+                        ProgressView()
+                            .tint(.white)
+                            .scaleEffect(0.8)
+                        Text("Reconnecting...")
+                            .font(.caption)
+                            .foregroundColor(.white)
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 8)
+                    .background(Capsule().fill(Color.orange.opacity(0.8)))
+                    .padding(.top, 8)
+                    Spacer()
+                }
+            }
         }
         .task {
             await viewModel.startSession()

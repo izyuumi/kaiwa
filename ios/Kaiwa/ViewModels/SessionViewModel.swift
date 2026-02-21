@@ -20,6 +20,7 @@ class SessionViewModel: ObservableObject {
     @Published var interimLanguage: String = ""
     @Published var languageSide: LanguageSide = .topJP
     @Published var isApproved: Bool = false
+    @Published var isReconnecting: Bool = false
 
     private let convexService = ConvexService()
     private let sonioxService = SonioxService()
@@ -27,6 +28,11 @@ class SessionViewModel: ObservableObject {
 
     /// Cached session auth to avoid redundant key requests
     private var cachedAuth: SessionAuthResponse?
+
+    /// Whether we should attempt auto-reconnect on disconnect
+    private var shouldAutoReconnect = false
+    private var reconnectAttempts = 0
+    private static let maxReconnectAttempts = 3
 
     init() {
         audioService.delegate = self
@@ -76,16 +82,46 @@ class SessionViewModel: ObservableObject {
             try audioService.start()
 
             state = .listening
+            shouldAutoReconnect = true
+            reconnectAttempts = 0
+            isReconnecting = false
         } catch {
+            isReconnecting = false
             state = .error(Self.startErrorMessage(from: error))
         }
     }
 
     func stopSession() async {
+        shouldAutoReconnect = false
+        reconnectAttempts = 0
+        isReconnecting = false
         audioService.stop()
         await sonioxService.disconnect()
         state = .idle
         interimText = ""
+    }
+
+    /// Attempt to reconnect after an unexpected disconnect.
+    private func attemptReconnect() {
+        guard shouldAutoReconnect, reconnectAttempts < Self.maxReconnectAttempts else {
+            shouldAutoReconnect = false
+            isReconnecting = false
+            if reconnectAttempts >= Self.maxReconnectAttempts {
+                state = .error("Connection lost after \(Self.maxReconnectAttempts) reconnect attempts")
+            }
+            return
+        }
+
+        reconnectAttempts += 1
+        isReconnecting = true
+        let delay = Double(reconnectAttempts) * 1.0 // 1s, 2s, 3s backoff
+
+        Task { @MainActor in
+            try? await Task.sleep(nanoseconds: UInt64(delay * 1_000_000_000))
+            guard shouldAutoReconnect else { return }
+            print("Reconnect attempt \(reconnectAttempts)/\(Self.maxReconnectAttempts)")
+            await startSession()
+        }
     }
 
     private func handleFinalUtterance(text: String, language: String) {
@@ -177,7 +213,11 @@ extension SessionViewModel: SonioxServiceDelegate {
     nonisolated func sonioxDidDisconnect() {
         Task { @MainActor in
             if case .listening = self.state {
-                self.state = .error("Connection lost")
+                if self.shouldAutoReconnect {
+                    self.attemptReconnect()
+                } else {
+                    self.state = .error("Connection lost")
+                }
             }
         }
     }

@@ -2,6 +2,7 @@ import SwiftUI
 
 struct SessionView: View {
     @ObservedObject var viewModel: SessionViewModel
+    @ObservedObject private var network = NetworkMonitor.shared
     let onBack: () -> Void
 
     var body: some View {
@@ -27,6 +28,24 @@ struct SessionView: View {
 
             // Controls overlay
             controlsOverlay
+
+            // Offline banner
+            if !network.isConnected {
+                VStack {
+                    HStack(spacing: 6) {
+                        Image(systemName: "wifi.slash")
+                            .font(.caption)
+                        Text("No internet connection")
+                            .font(.caption)
+                    }
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 8)
+                    .background(Capsule().fill(Color.red.opacity(0.85)))
+                    .padding(.top, 8)
+                    Spacer()
+                }
+            }
         }
         .task {
             await viewModel.startSession()

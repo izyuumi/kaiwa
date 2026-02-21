@@ -53,16 +53,27 @@ struct TranscriptView: View {
         }
     }
 
+    private static let timeFormatter: DateFormatter = {
+        let f = DateFormatter()
+        f.dateFormat = "HH:mm"
+        return f
+    }()
+
     private func entryView(_ entry: ConversationEntry) -> some View {
         let isJapaneseOriginal = entry.detectedLanguage.hasPrefix("ja")
         let original = isJapaneseOriginal ? entry.jp : entry.en
         let translated = isJapaneseOriginal ? entry.en : entry.jp
 
-        return Text("\(original)  \u{2192}  \(translated)")
-            .font(.system(size: 22, weight: .regular))
-            .foregroundColor(entry.isTranslating ? .gray : .white)
-            .italic(entry.isTranslating)
-            .frame(maxWidth: .infinity, alignment: .leading)
+        return VStack(alignment: .leading, spacing: 2) {
+            Text(Self.timeFormatter.string(from: entry.timestamp))
+                .font(.system(size: 11, weight: .medium))
+                .foregroundColor(.gray.opacity(0.5))
+            Text("\(original)  \u{2192}  \(translated)")
+                .font(.system(size: 22, weight: .regular))
+                .foregroundColor(entry.isTranslating ? .gray : .white)
+                .italic(entry.isTranslating)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 
     private var interimView: some View {

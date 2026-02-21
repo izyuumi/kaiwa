@@ -10,28 +10,28 @@
 		043843FB6C2703FDE7B2EF2A /* SetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91D5E339F11D3B77C34A7E0 /* SetupView.swift */; };
 		0B7C59B1EB80C697649DCFBA /* SessionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FAAA2AAF9F7C64C5E2F2BE /* SessionViewModel.swift */; };
 		22CF99D3FDE38614D7C1C72E /* SonioxService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768FF0391DC3415DC4B614C4 /* SonioxService.swift */; };
+		3A272789DA1408B4ABB0EAF4 /* AuthSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC98AF3C3DA66CEE624E4233 /* AuthSheet.swift */; };
 		5C07A19AB317C18F63642017 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22169ACA9FE0535F118D7167 /* ContentView.swift */; };
 		5F35F91365760904FD865DCB /* Config.plist.example in Resources */ = {isa = PBXBuildFile; fileRef = 8A100E10EA34F0AA4E77A180 /* Config.plist.example */; };
 		64F6B859F93C20CDC67C860A /* ConvexService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91FFC7DB354A475D2ECE02C3 /* ConvexService.swift */; };
+		6FB543AA98DA99447AAE70E9 /* ClerkKitUI in Frameworks */ = {isa = PBXBuildFile; productRef = 6113D809F20AB53152BC4470 /* ClerkKitUI */; };
 		74B0AAB74C3B850E3C2E360D /* KaiwaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A97712E61834A04073550E2F /* KaiwaApp.swift */; };
 		79D8EEC19ED8C103559CEC3C /* SessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5E2846244019BC7288BEB7 /* SessionView.swift */; };
+		87C4F97A0419F7EF9395532B /* ClerkKit in Frameworks */ = {isa = PBXBuildFile; productRef = 114B18EBF620814DB3C447F7 /* ClerkKit */; };
 		9CC14F980D6DF4FEF30F399F /* ConversationEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B5018EF367CCE379CB47C9 /* ConversationEntry.swift */; };
 		AE771FD92F4589F800EB409E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AE771FD82F4589F800EB409E /* Assets.xcassets */; };
 		BE14CFBEF2A1AE412DAE5D90 /* TranscriptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E133294D23BACFDF127163F /* TranscriptView.swift */; };
 		D0141A46CE67E2DAE966101B /* ConfigService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 759FD257FF4BA335DBCB3785 /* ConfigService.swift */; };
 		D0D6AF5F3113A4C62B93CFCA /* SessionAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E281ADE59C76E5837B18E0F /* SessionAuth.swift */; };
 		D1D213316C585EEC6179D1AE /* AudioCaptureService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86758C4B89A5D23BB05B5525 /* AudioCaptureService.swift */; };
-		3A272789DA1408B4ABB0EAF4 /* AuthSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC98AF3C3DA66CEE624E4233 /* AuthSheet.swift */; };
-		6FB543AA98DA99447AAE70E9 /* ClerkKitUI in Frameworks */ = {isa = PBXBuildFile; productRef = 6113D809F20AB53152BC4470 /* ClerkKitUI */; };
-		87C4F97A0419F7EF9395532B /* ClerkKit in Frameworks */ = {isa = PBXBuildFile; productRef = 114B18EBF620814DB3C447F7 /* ClerkKit */; };
 		EB2321780B0BC33529C96AB9 /* Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2CEADE429A21658E7E1E298E /* Config.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		22169ACA9FE0535F118D7167 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		2CEADE429A21658E7E1E298E /* Config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Config.plist; sourceTree = "<group>"; };
 		2E281ADE59C76E5837B18E0F /* SessionAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionAuth.swift; sourceTree = "<group>"; };
 		392B8F61123F16298F63A250 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		A1B2C3D4E5F60718A1B2C3D4 /* Kaiwa.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Kaiwa.entitlements; sourceTree = "<group>"; };
 		41FAAA2AAF9F7C64C5E2F2BE /* SessionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionViewModel.swift; sourceTree = "<group>"; };
 		58C25253E0FB0EC45FE2043F /* Kaiwa.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kaiwa.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		759FD257FF4BA335DBCB3785 /* ConfigService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigService.swift; sourceTree = "<group>"; };
@@ -40,15 +40,14 @@
 		8A100E10EA34F0AA4E77A180 /* Config.plist.example */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Config.plist.example; sourceTree = "<group>"; };
 		8E133294D23BACFDF127163F /* TranscriptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptView.swift; sourceTree = "<group>"; };
 		91FFC7DB354A475D2ECE02C3 /* ConvexService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvexService.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F60718A1B2C3D4 /* Kaiwa.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Kaiwa.entitlements; sourceTree = "<group>"; };
 		A97712E61834A04073550E2F /* KaiwaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KaiwaApp.swift; sourceTree = "<group>"; };
 		AE771FD82F4589F800EB409E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CF5E2846244019BC7288BEB7 /* SessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionView.swift; sourceTree = "<group>"; };
 		D91D5E339F11D3B77C34A7E0 /* SetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupView.swift; sourceTree = "<group>"; };
-		F8B5018EF367CCE379CB47C9 /* ConversationEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationEntry.swift; sourceTree = "<group>"; };
-		2CEADE429A21658E7E1E298E /* Config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Config.plist; sourceTree = "<group>"; };
 		DC98AF3C3DA66CEE624E4233 /* AuthSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSheet.swift; sourceTree = "<group>"; };
+		F8B5018EF367CCE379CB47C9 /* ConversationEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationEntry.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
-
 
 /* Begin PBXFrameworksBuildPhase section */
 		31121DCE561DE0694BBDD58F /* Frameworks */ = {
@@ -178,10 +177,10 @@
 				en,
 			);
 			mainGroup = 994BE6106EB7422322CA7DCF;
+			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				0F02287601A55344F74DA5B2 /* XCRemoteSwiftPackageReference "clerk-ios" */,
 			);
-			minimizedProjectReferenceProxies = 1;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (

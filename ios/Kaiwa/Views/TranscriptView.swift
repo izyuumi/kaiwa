@@ -54,18 +54,19 @@ struct TranscriptView: View {
     }
 
     private func entryView(_ entry: ConversationEntry) -> some View {
-        let text = showJapanese ? entry.jp : entry.en
-        let isOriginal = (showJapanese && entry.detectedLanguage.hasPrefix("ja"))
-            || (!showJapanese && entry.detectedLanguage.hasPrefix("en"))
+        let isJapaneseOriginal = entry.detectedLanguage.hasPrefix("ja")
+        let original = isJapaneseOriginal ? entry.jp : entry.en
+        let translated = isJapaneseOriginal ? entry.en : entry.jp
 
-        return Text(text)
+        return Text("\(original)  \u{2192}  \(translated)")
             .font(.system(size: 22, weight: .regular))
-            .foregroundColor(isOriginal ? .white : .white.opacity(0.85))
+            .foregroundColor(entry.isTranslating ? .gray : .white)
+            .italic(entry.isTranslating)
             .frame(maxWidth: .infinity, alignment: .leading)
     }
 
     private var interimView: some View {
-        Text(interimText)
+        Text("\(interimText)  \u{2192}  ...")
             .font(.system(size: 22, weight: .regular))
             .foregroundColor(.gray)
             .italic()

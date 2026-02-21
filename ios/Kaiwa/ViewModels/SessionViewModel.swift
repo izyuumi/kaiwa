@@ -81,25 +81,49 @@ class SessionViewModel: ObservableObject {
 
     private func handleFinalUtterance(text: String, language: String) {
         Task { @MainActor in
+            let isJapanese = language.hasPrefix("ja")
+            let pendingId = UUID()
+
+            self.entries.append(ConversationEntry(
+                id: pendingId,
+                jp: isJapanese ? text : "Translating...",
+                en: isJapanese ? "Translating..." : text,
+                detectedLanguage: language,
+                isTranslating: true
+            ))
+            self.interimText = ""
+
             do {
                 let result = try await self.convexService.translate(text: text, detectedLanguage: language)
-                self.entries.append(ConversationEntry(
+                self.updateEntry(
+                    id: pendingId,
                     jp: result.jp,
                     en: result.en,
                     detectedLanguage: language
-                ))
-                self.interimText = ""
+                )
             } catch {
                 print("Translation error: \(error)")
-                let isJapanese = language.hasPrefix("ja")
-                self.entries.append(ConversationEntry(
+                self.updateEntry(
+                    id: pendingId,
                     jp: isJapanese ? text : "[\(error.localizedDescription)]",
                     en: isJapanese ? "[\(error.localizedDescription)]" : text,
                     detectedLanguage: language
-                ))
-                self.interimText = ""
+                )
             }
         }
+    }
+
+    private func updateEntry(id: UUID, jp: String, en: String, detectedLanguage: String) {
+        guard let index = entries.firstIndex(where: { $0.id == id }) else { return }
+        let existing = entries[index]
+        entries[index] = ConversationEntry(
+            id: existing.id,
+            jp: jp,
+            en: en,
+            detectedLanguage: detectedLanguage,
+            timestamp: existing.timestamp,
+            isTranslating: false
+        )
     }
 }
 
@@ -122,7 +146,9 @@ extension SessionViewModel: AudioCaptureDelegate {
 extension SessionViewModel: SonioxServiceDelegate {
     nonisolated func sonioxDidReceiveInterim(text: String, language: String) {
         Task { @MainActor in
-            self.interimText = text
+            let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
+            guard !trimmed.isEmpty else { return }
+            self.interimText = trimmed
             self.interimLanguage = language
         }
     }

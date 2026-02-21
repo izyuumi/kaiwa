@@ -29,12 +29,14 @@ struct SetupView: View {
                             bottomLabel: "🇬🇧 English",
                             side: .topJP
                         )
+                        .accessibilityLabel("Japanese on top, English on bottom")
 
                         layoutButton(
                             topLabel: "🇬🇧 English",
                             bottomLabel: "🇯🇵 日本語",
                             side: .topEN
                         )
+                        .accessibilityLabel("English on top, Japanese on bottom")
                     }
                 }
 

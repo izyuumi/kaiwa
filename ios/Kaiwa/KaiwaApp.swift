@@ -4,7 +4,14 @@ import ClerkKit
 @main
 struct KaiwaApp: App {
     init() {
-        Clerk.configure(publishableKey: ConfigService.clerkPublishableKey)
+        Clerk.configure(
+            publishableKey: ConfigService.clerkPublishableKey,
+            options: .init(
+                loggerHandler: { entry in
+                    print(entry.formattedMessage)
+                }
+            )
+        )
     }
 
     var body: some Scene {

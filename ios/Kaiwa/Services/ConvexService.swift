@@ -45,6 +45,32 @@ actor ConvexService {
         return convexResponse.value
     }
 
+    func ensureUser() async throws -> UserStatus {
+        let token = try await getAuthToken()
+
+        let url = URL(string: "\(baseURL)/api/mutation")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+
+        let body: [String: Any] = [
+            "path": "users:ensureUser",
+            "args": [:] as [String: Any],
+            "format": "json"
+        ]
+        request.httpBody = try JSONSerialization.data(withJSONObject: body)
+
+        let (data, response) = try await URLSession.shared.data(for: request)
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+            let bodyStr = String(data: data, encoding: .utf8) ?? "unknown"
+            throw ConvexError.requestFailed("ensureUser failed: \(bodyStr)")
+        }
+
+        let convexResponse = try JSONDecoder().decode(ConvexQueryResponse<UserStatus>.self, from: data)
+        return convexResponse.value
+    }
+
     func translate(text: String, detectedLanguage: String) async throws -> TranslationResult {
         let token = try await getAuthToken()
 

@@ -2,6 +2,7 @@ import SwiftUI
 
 struct SetupView: View {
     @ObservedObject var viewModel: SessionViewModel
+    let isApproved: Bool
     let onStart: () -> Void
 
     var body: some View {
@@ -42,11 +43,19 @@ struct SetupView: View {
                 }) {
                     Text("Start Session")
                         .font(.title3.weight(.medium))
-                        .foregroundColor(.black)
+                        .foregroundColor(isApproved ? .black : .gray)
                         .padding(.horizontal, 48)
                         .padding(.vertical, 16)
-                        .background(Color.white)
+                        .background(isApproved ? Color.white : Color.white.opacity(0.3))
                         .clipShape(Capsule())
+                }
+                .disabled(!isApproved)
+
+                if !isApproved {
+                    Text("Your account is pending approval.\nPlease contact the administrator.")
+                        .font(.footnote)
+                        .foregroundColor(.gray)
+                        .multilineTextAlignment(.center)
                 }
             }
         }

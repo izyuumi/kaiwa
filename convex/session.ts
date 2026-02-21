@@ -1,4 +1,5 @@
 import { action } from "./_generated/server";
+import { internal } from "./_generated/api";
 
 export const getSessionAuth = action({
   args: {},
@@ -7,6 +8,9 @@ export const getSessionAuth = action({
     if (!identity) {
       throw new Error("Not authenticated");
     }
+
+    // Check approval status
+    await ctx.runQuery(internal.users.getApprovalStatus);
 
     const sonioxApiKey = process.env.SONIOX_API_KEY;
     if (!sonioxApiKey) {

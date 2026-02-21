@@ -81,6 +81,12 @@ class SessionViewModel: ObservableObject {
         }
     }
 
+    func clearTranscript() {
+        entries.removeAll()
+        interimText = ""
+        interimLanguage = ""
+    }
+
     func stopSession() async {
         audioService.stop()
         await sonioxService.disconnect()

@@ -75,7 +75,22 @@ struct SessionView: View {
             Spacer()
             HStack {
                 Spacer()
+                Button {
+                    viewModel.clearTranscript()
+                } label: {
+                    Image(systemName: "trash")
+                        .font(.title3)
+                        .foregroundColor(.white.opacity(0.5))
+                        .frame(width: 44, height: 44)
+                        .background(Circle().fill(Color.white.opacity(0.06)))
+                }
+                .disabled(viewModel.entries.isEmpty)
+                .opacity(viewModel.entries.isEmpty ? 0.2 : 1.0)
+                .accessibilityLabel("Clear transcript")
+                Spacer()
                 controlButton
+                Spacer()
+                Color.clear.frame(width: 44, height: 44)
                 Spacer()
             }
             if case .error(let message) = viewModel.state {

@@ -31,6 +31,9 @@ struct SessionView: View {
         .task {
             await viewModel.startSession()
         }
+        .onDisappear {
+            Task { await viewModel.stopSession() }
+        }
     }
 
     private func topHalf(height: CGFloat) -> some View {
@@ -40,6 +43,7 @@ struct SessionView: View {
             language: isJP ? .jp : .en,
             interimText: viewModel.interimText,
             interimLanguage: viewModel.interimLanguage,
+            interimConfidence: viewModel.interimConfidence,
             showJapanese: isJP,
             isListening: isListening
         )
@@ -53,6 +57,7 @@ struct SessionView: View {
             language: isJP ? .jp : .en,
             interimText: viewModel.interimText,
             interimLanguage: viewModel.interimLanguage,
+            interimConfidence: viewModel.interimConfidence,
             showJapanese: isJP,
             isListening: isListening
         )
@@ -67,6 +72,7 @@ struct SessionView: View {
 
     private var isListening: Bool {
         if case .listening = viewModel.state { return true }
+        if case .reconnecting = viewModel.state { return true }
         return false
     }
 
@@ -82,6 +88,14 @@ struct SessionView: View {
                 Text(message)
                     .font(.caption)
                     .foregroundColor(.red.opacity(0.9))
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 24)
+                    .padding(.top, 12)
+            }
+            if case .reconnecting(let attempt) = viewModel.state {
+                Text("Reconnecting... (attempt \(attempt))")
+                    .font(.caption)
+                    .foregroundColor(.orange.opacity(0.95))
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 24)
                     .padding(.top, 12)
@@ -105,6 +119,12 @@ struct SessionView: View {
                 .scaleEffect(1.5)
                 .frame(width: 56, height: 56)
                 .background(Circle().fill(Color.white.opacity(0.1)))
+        case .reconnecting:
+            Button {
+                Task { await viewModel.stopSession() }
+            } label: {
+                controlIcon(systemName: "stop.fill", color: .orange)
+            }
         case .listening:
             Button {
                 Task { await viewModel.stopSession() }

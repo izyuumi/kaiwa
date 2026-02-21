@@ -9,6 +9,7 @@ struct TranscriptView: View {
     let language: TranscriptLanguage
     let interimText: String
     let interimLanguage: String
+    let interimConfidence: Double?
     let showJapanese: Bool
     let isListening: Bool
 
@@ -58,19 +59,51 @@ struct TranscriptView: View {
         let original = isJapaneseOriginal ? entry.jp : entry.en
         let translated = isJapaneseOriginal ? entry.en : entry.jp
 
-        return Text("\(original)  \u{2192}  \(translated)")
-            .font(.system(size: 22, weight: .regular))
-            .foregroundColor(entry.isTranslating ? .gray : .white)
-            .italic(entry.isTranslating)
-            .frame(maxWidth: .infinity, alignment: .leading)
+        return VStack(alignment: .leading, spacing: 6) {
+            HStack(spacing: 8) {
+                Text(languageBadge(for: entry.detectedLanguage))
+                    .font(.caption2.weight(.semibold))
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 3)
+                    .background(Color.white.opacity(0.12))
+                    .clipShape(Capsule())
+
+                if let confidence = entry.confidence {
+                    Text("Conf \(Int(confidence * 100))%")
+                        .font(.caption2)
+                        .foregroundColor(.gray)
+                }
+            }
+
+            Text("\(original)  \u{2192}  \(translated)")
+                .font(.system(size: 22, weight: .regular))
+                .foregroundColor(entry.isTranslating ? .gray : .white)
+                .italic(entry.isTranslating)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 
     private var interimView: some View {
-        Text("\(interimText)  \u{2192}  ...")
-            .font(.system(size: 22, weight: .regular))
-            .foregroundColor(.gray)
-            .italic()
-            .frame(maxWidth: .infinity, alignment: .leading)
+        VStack(alignment: .leading, spacing: 6) {
+            Text(languageBadge(for: interimLanguage))
+                .font(.caption2.weight(.semibold))
+                .padding(.horizontal, 8)
+                .padding(.vertical, 3)
+                .background(Color.white.opacity(0.08))
+                .clipShape(Capsule())
+
+            if let interimConfidence {
+                Text("Conf \(Int(interimConfidence * 100))%")
+                    .font(.caption2)
+                    .foregroundColor(.gray)
+            }
+
+            Text("\(interimText)  \u{2192}  ...")
+                .font(.system(size: 22, weight: .regular))
+                .foregroundColor(.gray)
+                .italic()
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 
     private var listeningIndicator: some View {
@@ -80,6 +113,16 @@ struct TranscriptView: View {
                 .font(.caption)
                 .foregroundColor(.gray)
         }
+    }
+
+    private func languageBadge(for language: String) -> String {
+        if language.hasPrefix("ja") {
+            return "JP"
+        }
+        if language.hasPrefix("en") {
+            return "EN"
+        }
+        return language.isEmpty ? "UNK" : language.uppercased()
     }
 }
 

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 63;
+	objectVersion = 77;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -11,6 +11,9 @@
 		0B7C59B1EB80C697649DCFBA /* SessionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FAAA2AAF9F7C64C5E2F2BE /* SessionViewModel.swift */; };
 		22CF99D3FDE38614D7C1C72E /* SonioxService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768FF0391DC3415DC4B614C4 /* SonioxService.swift */; };
 		3A272789DA1408B4ABB0EAF4 /* AuthSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC98AF3C3DA66CEE624E4233 /* AuthSheet.swift */; };
+		3FA320E1428CABA334C01305 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA88841CD4A8456C3168C139 /* Assets.xcassets */; };
+		4D7A04037F9C120E96D70F2D /* SessionStorageServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7D6AAD08D29767B55BA1009 /* SessionStorageServiceTests.swift */; };
+		5B6E68F4E50F3F779A29F5D0 /* HistoryGlossaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9674C37AF66208B8DA10EC16 /* HistoryGlossaryView.swift */; };
 		5C07A19AB317C18F63642017 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22169ACA9FE0535F118D7167 /* ContentView.swift */; };
 		5F35F91365760904FD865DCB /* Config.plist.example in Resources */ = {isa = PBXBuildFile; fileRef = 8A100E10EA34F0AA4E77A180 /* Config.plist.example */; };
 		64F6B859F93C20CDC67C860A /* ConvexService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91FFC7DB354A475D2ECE02C3 /* ConvexService.swift */; };
@@ -19,33 +22,51 @@
 		79D8EEC19ED8C103559CEC3C /* SessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5E2846244019BC7288BEB7 /* SessionView.swift */; };
 		87C4F97A0419F7EF9395532B /* ClerkKit in Frameworks */ = {isa = PBXBuildFile; productRef = 114B18EBF620814DB3C447F7 /* ClerkKit */; };
 		9CC14F980D6DF4FEF30F399F /* ConversationEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B5018EF367CCE379CB47C9 /* ConversationEntry.swift */; };
-		AE771FD92F4589F800EB409E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AE771FD82F4589F800EB409E /* Assets.xcassets */; };
+		A016FE205172309EDA3F586D /* GlossaryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AFD7AD79D0BD65050FAB9F1 /* GlossaryItem.swift */; };
 		BE14CFBEF2A1AE412DAE5D90 /* TranscriptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E133294D23BACFDF127163F /* TranscriptView.swift */; };
 		D0141A46CE67E2DAE966101B /* ConfigService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 759FD257FF4BA335DBCB3785 /* ConfigService.swift */; };
 		D0D6AF5F3113A4C62B93CFCA /* SessionAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E281ADE59C76E5837B18E0F /* SessionAuth.swift */; };
 		D1D213316C585EEC6179D1AE /* AudioCaptureService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86758C4B89A5D23BB05B5525 /* AudioCaptureService.swift */; };
+		E98DD39A176D75CFB983CC71 /* ConversationEntryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 586BDAB46FC32D62FA52BFDD /* ConversationEntryTests.swift */; };
 		EB2321780B0BC33529C96AB9 /* Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2CEADE429A21658E7E1E298E /* Config.plist */; };
+		F176A4D9682B7E733CE1C1C1 /* SessionStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B361EEDF516406BB0CD8326 /* SessionStorageService.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		7DB8EDCBD8DE38617E772F12 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BEC546D2ACC3D7B05609CED2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F6FEBD296E41D225CBD62E17;
+			remoteInfo = Kaiwa;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		11BD914B1712F1D84B9EB13F /* KaiwaTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = KaiwaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		22169ACA9FE0535F118D7167 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		2B361EEDF516406BB0CD8326 /* SessionStorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStorageService.swift; sourceTree = "<group>"; };
 		2CEADE429A21658E7E1E298E /* Config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Config.plist; sourceTree = "<group>"; };
 		2E281ADE59C76E5837B18E0F /* SessionAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionAuth.swift; sourceTree = "<group>"; };
 		392B8F61123F16298F63A250 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		41FAAA2AAF9F7C64C5E2F2BE /* SessionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionViewModel.swift; sourceTree = "<group>"; };
-		58C25253E0FB0EC45FE2043F /* Kaiwa.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kaiwa.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		586BDAB46FC32D62FA52BFDD /* ConversationEntryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationEntryTests.swift; sourceTree = "<group>"; };
+		58C25253E0FB0EC45FE2043F /* Kaiwa.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Kaiwa.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		759FD257FF4BA335DBCB3785 /* ConfigService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigService.swift; sourceTree = "<group>"; };
 		768FF0391DC3415DC4B614C4 /* SonioxService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SonioxService.swift; sourceTree = "<group>"; };
+		7AFD7AD79D0BD65050FAB9F1 /* GlossaryItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlossaryItem.swift; sourceTree = "<group>"; };
 		86758C4B89A5D23BB05B5525 /* AudioCaptureService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioCaptureService.swift; sourceTree = "<group>"; };
-		8A100E10EA34F0AA4E77A180 /* Config.plist.example */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Config.plist.example; sourceTree = "<group>"; };
+		8A100E10EA34F0AA4E77A180 /* Config.plist.example */ = {isa = PBXFileReference; path = Config.plist.example; sourceTree = "<group>"; };
 		8E133294D23BACFDF127163F /* TranscriptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptView.swift; sourceTree = "<group>"; };
 		91FFC7DB354A475D2ECE02C3 /* ConvexService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvexService.swift; sourceTree = "<group>"; };
-		A1B2C3D4E5F60718A1B2C3D4 /* Kaiwa.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Kaiwa.entitlements; sourceTree = "<group>"; };
+		9674C37AF66208B8DA10EC16 /* HistoryGlossaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryGlossaryView.swift; sourceTree = "<group>"; };
+		A1C8025C853C3B0A9EECEC81 /* Kaiwa.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Kaiwa.entitlements; sourceTree = "<group>"; };
 		A97712E61834A04073550E2F /* KaiwaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KaiwaApp.swift; sourceTree = "<group>"; };
-		AE771FD82F4589F800EB409E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		BA88841CD4A8456C3168C139 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CF5E2846244019BC7288BEB7 /* SessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionView.swift; sourceTree = "<group>"; };
 		D91D5E339F11D3B77C34A7E0 /* SetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupView.swift; sourceTree = "<group>"; };
 		DC98AF3C3DA66CEE624E4233 /* AuthSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSheet.swift; sourceTree = "<group>"; };
+		E7D6AAD08D29767B55BA1009 /* SessionStorageServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStorageServiceTests.swift; sourceTree = "<group>"; };
 		F8B5018EF367CCE379CB47C9 /* ConversationEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationEntry.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -67,6 +88,7 @@
 			children = (
 				DC98AF3C3DA66CEE624E4233 /* AuthSheet.swift */,
 				22169ACA9FE0535F118D7167 /* ContentView.swift */,
+				9674C37AF66208B8DA10EC16 /* HistoryGlossaryView.swift */,
 				CF5E2846244019BC7288BEB7 /* SessionView.swift */,
 				D91D5E339F11D3B77C34A7E0 /* SetupView.swift */,
 				8E133294D23BACFDF127163F /* TranscriptView.swift */,
@@ -85,11 +107,11 @@
 		249E0557785090128FCC8AD0 /* Kaiwa */ = {
 			isa = PBXGroup;
 			children = (
-				AE771FD82F4589F800EB409E /* Assets.xcassets */,
+				BA88841CD4A8456C3168C139 /* Assets.xcassets */,
 				2CEADE429A21658E7E1E298E /* Config.plist */,
 				8A100E10EA34F0AA4E77A180 /* Config.plist.example */,
 				392B8F61123F16298F63A250 /* Info.plist */,
-				A1B2C3D4E5F60718A1B2C3D4 /* Kaiwa.entitlements */,
+				A1C8025C853C3B0A9EECEC81 /* Kaiwa.entitlements */,
 				A97712E61834A04073550E2F /* KaiwaApp.swift */,
 				8BCCE8E38817B823C42A9AC4 /* Models */,
 				2C687C5DBA4E84FC446EBC40 /* Services */,
@@ -105,6 +127,7 @@
 				86758C4B89A5D23BB05B5525 /* AudioCaptureService.swift */,
 				759FD257FF4BA335DBCB3785 /* ConfigService.swift */,
 				91FFC7DB354A475D2ECE02C3 /* ConvexService.swift */,
+				2B361EEDF516406BB0CD8326 /* SessionStorageService.swift */,
 				768FF0391DC3415DC4B614C4 /* SonioxService.swift */,
 			);
 			path = Services;
@@ -114,6 +137,7 @@
 			isa = PBXGroup;
 			children = (
 				58C25253E0FB0EC45FE2043F /* Kaiwa.app */,
+				11BD914B1712F1D84B9EB13F /* KaiwaTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -122,6 +146,7 @@
 			isa = PBXGroup;
 			children = (
 				F8B5018EF367CCE379CB47C9 /* ConversationEntry.swift */,
+				7AFD7AD79D0BD65050FAB9F1 /* GlossaryItem.swift */,
 				2E281ADE59C76E5837B18E0F /* SessionAuth.swift */,
 			);
 			path = Models;
@@ -131,20 +156,48 @@
 			isa = PBXGroup;
 			children = (
 				249E0557785090128FCC8AD0 /* Kaiwa */,
+				A937239395A386EF14298B0F /* KaiwaTests */,
 				3C1A3586D2FB3C689CC3DD1B /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		A937239395A386EF14298B0F /* KaiwaTests */ = {
+			isa = PBXGroup;
+			children = (
+				586BDAB46FC32D62FA52BFDD /* ConversationEntryTests.swift */,
+				E7D6AAD08D29767B55BA1009 /* SessionStorageServiceTests.swift */,
+			);
+			path = KaiwaTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		4BB0EBBD05827BC2E7494D44 /* KaiwaTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B5C1C6360522C55C48ABCC36 /* Build configuration list for PBXNativeTarget "KaiwaTests" */;
+			buildPhases = (
+				6968551E3E793CF172D604B6 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C59B98BCACF42467E9A1C7A2 /* PBXTargetDependency */,
+			);
+			name = KaiwaTests;
+			packageProductDependencies = (
+			);
+			productName = KaiwaTests;
+			productReference = 11BD914B1712F1D84B9EB13F /* KaiwaTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		F6FEBD296E41D225CBD62E17 /* Kaiwa */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = B263721D3E0DCC09865C98CE /* Build configuration list for PBXNativeTarget "Kaiwa" */;
 			buildPhases = (
-				31121DCE561DE0694BBDD58F /* Frameworks */,
 				D31DCD10B2ECDBD5466A2C01 /* Sources */,
 				0DED63F1AE2F76CFA52A6DB3 /* Resources */,
+				31121DCE561DE0694BBDD58F /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -167,6 +220,12 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					F6FEBD296E41D225CBD62E17 = {
+						DevelopmentTeam = AN5KM8QGEF;
+						ProvisioningStyle = Automatic;
+					};
+				};
 			};
 			buildConfigurationList = ADA8085CF4D1A3CF17556189 /* Build configuration list for PBXProject "Kaiwa" */;
 			compatibilityVersion = "Xcode 14.0";
@@ -181,10 +240,12 @@
 			packageReferences = (
 				0F02287601A55344F74DA5B2 /* XCRemoteSwiftPackageReference "clerk-ios" */,
 			);
+			preferredProjectObjectVersion = 77;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				F6FEBD296E41D225CBD62E17 /* Kaiwa */,
+				4BB0EBBD05827BC2E7494D44 /* KaiwaTests */,
 			);
 		};
 /* End PBXProject section */
@@ -194,7 +255,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AE771FD92F4589F800EB409E /* Assets.xcassets in Resources */,
+				3FA320E1428CABA334C01305 /* Assets.xcassets in Resources */,
 				EB2321780B0BC33529C96AB9 /* Config.plist in Resources */,
 				5F35F91365760904FD865DCB /* Config.plist.example in Resources */,
 			);
@@ -203,18 +264,30 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		6968551E3E793CF172D604B6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E98DD39A176D75CFB983CC71 /* ConversationEntryTests.swift in Sources */,
+				4D7A04037F9C120E96D70F2D /* SessionStorageServiceTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D31DCD10B2ECDBD5466A2C01 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3A272789DA1408B4ABB0EAF4 /* AuthSheet.swift in Sources */,
 				D1D213316C585EEC6179D1AE /* AudioCaptureService.swift in Sources */,
+				3A272789DA1408B4ABB0EAF4 /* AuthSheet.swift in Sources */,
 				D0141A46CE67E2DAE966101B /* ConfigService.swift in Sources */,
 				5C07A19AB317C18F63642017 /* ContentView.swift in Sources */,
 				9CC14F980D6DF4FEF30F399F /* ConversationEntry.swift in Sources */,
 				64F6B859F93C20CDC67C860A /* ConvexService.swift in Sources */,
+				A016FE205172309EDA3F586D /* GlossaryItem.swift in Sources */,
+				5B6E68F4E50F3F779A29F5D0 /* HistoryGlossaryView.swift in Sources */,
 				74B0AAB74C3B850E3C2E360D /* KaiwaApp.swift in Sources */,
 				D0D6AF5F3113A4C62B93CFCA /* SessionAuth.swift in Sources */,
+				F176A4D9682B7E733CE1C1C1 /* SessionStorageService.swift in Sources */,
 				79D8EEC19ED8C103559CEC3C /* SessionView.swift in Sources */,
 				0B7C59B1EB80C697649DCFBA /* SessionViewModel.swift in Sources */,
 				043843FB6C2703FDE7B2EF2A /* SetupView.swift in Sources */,
@@ -225,7 +298,32 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		C59B98BCACF42467E9A1C7A2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F6FEBD296E41D225CBD62E17 /* Kaiwa */;
+			targetProxy = 7DB8EDCBD8DE38617E772F12 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		18144BEAAA71F186D5A0424F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = Kaiwa/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = to.yumi.KaiwaTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Kaiwa.app/Kaiwa";
+			};
+			name = Release;
+		};
 		908E0A03236D115D4149CAED /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -349,12 +447,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Kaiwa/Kaiwa.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = AN5KM8QGEF;
 				INFOPLIST_FILE = Kaiwa/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Kaiwa;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -371,12 +468,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Kaiwa/Kaiwa.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = AN5KM8QGEF;
 				INFOPLIST_FILE = Kaiwa/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Kaiwa;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -388,6 +484,23 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
+		};
+		DB21EF5819F6155411A0A372 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = Kaiwa/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = to.yumi.KaiwaTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Kaiwa.app/Kaiwa";
+			};
+			name = Debug;
 		};
 /* End XCBuildConfiguration section */
 
@@ -406,6 +519,15 @@
 			buildConfigurations = (
 				9602ACAF44070EFC835BD82E /* Debug */,
 				C8117E4114E44584AC73E939 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		B5C1C6360522C55C48ABCC36 /* Build configuration list for PBXNativeTarget "KaiwaTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DB21EF5819F6155411A0A372 /* Debug */,
+				18144BEAAA71F186D5A0424F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

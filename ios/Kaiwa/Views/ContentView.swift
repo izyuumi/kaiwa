@@ -6,6 +6,7 @@ struct ContentView: View {
     @StateObject private var viewModel = SessionViewModel()
     @State private var showingSetup = true
     @State private var showingSignIn = false
+    @State private var showingHistoryGlossary = false
 
     var body: some View {
         Group {
@@ -41,7 +42,7 @@ struct ContentView: View {
                     AuthSheet()
                 }
             } else {
-                ZStack(alignment: .topTrailing) {
+                ZStack {
                     if showingSetup {
                         SetupView(viewModel: viewModel, isApproved: viewModel.isApproved) {
                             showingSetup = false
@@ -52,20 +53,39 @@ struct ContentView: View {
                         }
                     }
 
-                    // Sign out button
-                    Button(action: {
-                        Task {
-                            try? await clerk.auth.signOut()
+                    VStack {
+                        HStack {
+                            Button(action: {
+                                showingHistoryGlossary = true
+                            }) {
+                                Image(systemName: "book.closed")
+                                    .font(.title3)
+                                    .foregroundColor(.green)
+                                    .padding(12)
+                            }
+
+                            Spacer()
+
+                            Button(action: {
+                                Task {
+                                    await viewModel.stopSession()
+                                    try? await clerk.auth.signOut()
+                                }
+                            }) {
+                                Image(systemName: "person.crop.circle.badge.xmark")
+                                    .font(.title3)
+                                    .foregroundColor(.green)
+                                    .padding(12)
+                            }
                         }
-                    }) {
-                        Image(systemName: "person.crop.circle.badge.xmark")
-                            .font(.title3)
-                            .foregroundColor(.green)
-                            .padding(12)
+                        Spacer()
                     }
                 }
                 .task {
                     await viewModel.checkApproval()
+                }
+                .sheet(isPresented: $showingHistoryGlossary) {
+                    HistoryGlossaryView(viewModel: viewModel)
                 }
             }
         }

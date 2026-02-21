@@ -57,6 +57,12 @@ struct SetupView: View {
                         .foregroundColor(.gray)
                         .multilineTextAlignment(.center)
                 }
+
+                Spacer()
+
+                Text("v\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "?") (\(Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "?"))")
+                    .font(.caption2)
+                    .foregroundColor(.gray.opacity(0.4))
             }
         }
     }

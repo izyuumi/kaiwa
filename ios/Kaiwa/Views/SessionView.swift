@@ -31,6 +31,12 @@ struct SessionView: View {
         .task {
             await viewModel.startSession()
         }
+        .onAppear {
+            UIApplication.shared.isIdleTimerDisabled = true
+        }
+        .onDisappear {
+            UIApplication.shared.isIdleTimerDisabled = false
+        }
     }
 
     private func topHalf(height: CGFloat) -> some View {

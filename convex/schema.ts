@@ -9,4 +9,8 @@ export default defineSchema({
     isApproved: v.boolean(),
     createdAt: v.number(),
   }).index("by_clerkId", ["clerkId"]),
+  keyAccessLog: defineTable({
+    clerkId: v.string(),
+    accessedAt: v.number(),
+  }).index("by_clerkId_time", ["clerkId", "accessedAt"]),
 });

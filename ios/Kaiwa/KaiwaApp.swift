@@ -3,6 +3,8 @@ import ClerkKit
 
 @main
 struct KaiwaApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+
     init() {
         Clerk.configure(
             publishableKey: ConfigService.clerkPublishableKey,

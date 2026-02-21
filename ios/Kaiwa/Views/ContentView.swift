@@ -43,7 +43,7 @@ struct ContentView: View {
             } else {
                 ZStack(alignment: .topTrailing) {
                     if showingSetup {
-                        SetupView(viewModel: viewModel) {
+                        SetupView(viewModel: viewModel, isApproved: viewModel.isApproved) {
                             showingSetup = false
                         }
                     } else {
@@ -63,6 +63,9 @@ struct ContentView: View {
                             .foregroundColor(.green)
                             .padding(12)
                     }
+                }
+                .task {
+                    await viewModel.checkApproval()
                 }
             }
         }

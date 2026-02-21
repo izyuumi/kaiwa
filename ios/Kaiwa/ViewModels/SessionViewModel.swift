@@ -19,6 +19,7 @@ class SessionViewModel: ObservableObject {
     @Published var interimText: String = ""
     @Published var interimLanguage: String = ""
     @Published var languageSide: LanguageSide = .topJP
+    @Published var isApproved: Bool = false
 
     private let convexService = ConvexService()
     private let sonioxService = SonioxService()
@@ -27,6 +28,16 @@ class SessionViewModel: ObservableObject {
     init() {
         audioService.delegate = self
         sonioxService.setDelegate(self)
+    }
+
+    func checkApproval() async {
+        do {
+            let status = try await convexService.ensureUser()
+            isApproved = status.isApproved
+        } catch {
+            print("Approval check failed: \(error)")
+            isApproved = false
+        }
     }
 
     func startSession() async {

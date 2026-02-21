@@ -1,5 +1,6 @@
 import { action } from "./_generated/server";
 import { v } from "convex/values";
+import { internal } from "./_generated/api";
 import OpenAI from "openai";
 
 export const translate = action({
@@ -12,6 +13,9 @@ export const translate = action({
     if (!identity) {
       throw new Error("Not authenticated");
     }
+
+    // Check approval status
+    await ctx.runQuery(internal.users.getApprovalStatus);
 
     const apiKey = process.env.OPENAI_API_KEY;
     if (!apiKey) {

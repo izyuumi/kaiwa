@@ -19,3 +19,12 @@ struct ConvexActionResponse<T: Codable>: Codable {
     let status: String
     let value: T
 }
+
+struct ConvexQueryResponse<T: Codable>: Codable {
+    let status: String
+    let value: T
+}
+
+struct UserStatus: Codable {
+    let isApproved: Bool
+}

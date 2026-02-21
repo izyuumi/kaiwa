@@ -4,25 +4,13 @@ import ClerkKit
 import ClerkKitUI
 
 struct AuthSheet: View {
-    @Environment(Clerk.self) private var clerk
-    @Environment(\.dismiss) private var dismiss
-
-    @State private var isSigningInWithApple = false
-    @State private var appleSignInError: String?
     @State private var showingDiagnostics = false
     @State private var lastAppleSignInError: AppleSignInErrorSnapshot?
 
     var body: some View {
         VStack(spacing: 20) {
-            VStack(spacing: 8) {
-                Text("Sign in to Kaiwa")
-                    .font(.headline)
-
-                Text("If Apple sign-in looks unresponsive, use the direct Apple sign-in button below.")
-                    .font(.footnote)
-                    .foregroundColor(.secondary)
-                    .multilineTextAlignment(.center)
-            }
+            Text("Sign in to Kaiwa")
+                .font(.headline)
 
             HStack {
                 Spacer()
@@ -32,88 +20,14 @@ struct AuthSheet: View {
                 .font(.footnote)
             }
 
-            Button(action: startAppleSignIn) {
-                HStack(spacing: 8) {
-                    Image(systemName: "applelogo")
-                        .font(.headline)
-
-                    Text(isSigningInWithApple ? "Signing in..." : "Continue with Apple")
-                        .fontWeight(.semibold)
-                }
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 12)
-                .background(Color.white)
-                .foregroundColor(.black)
-                .cornerRadius(12)
-            }
-            .disabled(isSigningInWithApple)
-
-            Text("or")
-                .font(.footnote)
-                .foregroundColor(.secondary)
-
             AuthView(isDismissable: false)
         }
         .padding()
-        .alert(
-            "Apple sign-in failed",
-            isPresented: Binding(
-                get: { appleSignInError != nil },
-                set: { isPresented in
-                    if !isPresented {
-                        appleSignInError = nil
-                    }
-                }
-            )
-        ) {
-            Button("OK", role: .cancel) {}
-        } message: {
-            Text(appleSignInError ?? "")
-        }
         .sheet(isPresented: $showingDiagnostics) {
             AuthDiagnosticsView(lastAppleSignInError: lastAppleSignInError)
         }
         .preferredColorScheme(.dark)
         .tint(.green)
-    }
-
-    private func startAppleSignIn() {
-        guard !isSigningInWithApple else { return }
-        Task { await signInWithApple() }
-    }
-
-    @MainActor
-    private func signInWithApple() async {
-        isSigningInWithApple = true
-        defer { isSigningInWithApple = false }
-
-        do {
-            _ = try await clerk.auth.signInWithApple()
-            dismiss()
-        } catch {
-            let snapshot = AppleSignInErrorSnapshot(error: error)
-            lastAppleSignInError = snapshot
-
-            if isUserCancellation(error) {
-                return
-            }
-
-            appleSignInError = snapshot.alertMessage
-            print("[AuthSheet] Apple sign-in error [\(snapshot.domain):\(snapshot.code)] \(snapshot.message)")
-        }
-    }
-
-    private func isUserCancellation(_ error: Error) -> Bool {
-        if let authError = error as? ASAuthorizationError {
-            return authError.code == .canceled
-        }
-
-        if case ASWebAuthenticationSessionError.canceledLogin = error {
-            return true
-        }
-
-        let nsError = error as NSError
-        return nsError.domain == NSURLErrorDomain && nsError.code == NSURLErrorCancelled
     }
 }
 

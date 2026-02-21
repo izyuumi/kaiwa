@@ -65,9 +65,24 @@ struct SessionView: View {
     }
 
     private var dividerBar: some View {
-        Rectangle()
-            .fill(Color.gray.opacity(0.3))
-            .frame(height: 4)
+        Button {
+            withAnimation(.easeInOut(duration: 0.3)) {
+                viewModel.languageSide = viewModel.languageSide == .topJP ? .topEN : .topJP
+            }
+        } label: {
+            HStack {
+                Spacer()
+                Image(systemName: "arrow.up.arrow.down")
+                    .font(.caption2)
+                    .foregroundColor(.white.opacity(0.6))
+                Spacer()
+            }
+            .frame(height: 28)
+            .background(Color.gray.opacity(0.15))
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel("Swap language sides")
     }
 
     private var isListening: Bool {

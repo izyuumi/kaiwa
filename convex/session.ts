@@ -5,8 +5,8 @@ import { v } from "convex/values";
 /** Maximum key requests per user per hour */
 const MAX_REQUESTS_PER_HOUR = 10;
 
-/** Key validity window in milliseconds (5 minutes) */
-const KEY_TTL_MS = 5 * 60 * 1000;
+/** Temporary key duration in seconds (5 minutes) */
+const TEMP_KEY_EXPIRES_IN_SECONDS = 300;
 
 export const logKeyAccess = internalMutation({
   args: { clerkId: v.string(), accessedAt: v.number() },
@@ -62,6 +62,36 @@ export const getSessionAuth = action({
       throw new Error("SONIOX_API_KEY environment variable is not set");
     }
 
+    // Create a temporary API key via Soniox REST API
+    const tempKeyResponse = await fetch(
+      "https://api.soniox.com/v1/auth/temporary-api-key",
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${sonioxApiKey}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          usage_type: "transcribe_websocket",
+          expires_in_seconds: TEMP_KEY_EXPIRES_IN_SECONDS,
+          client_reference_id: clerkId,
+        }),
+      }
+    );
+
+    if (!tempKeyResponse.ok) {
+      const errorText = await tempKeyResponse.text();
+      console.error(
+        `[temp-key-error] user=${clerkId} status=${tempKeyResponse.status} body=${errorText}`
+      );
+      throw new Error("Failed to create temporary API key");
+    }
+
+    const tempKey = (await tempKeyResponse.json()) as {
+      api_key: string;
+      expires_at: string;
+    };
+
     // Audit log
     await ctx.runMutation(internal.session.logKeyAccess, {
       clerkId,
@@ -69,12 +99,12 @@ export const getSessionAuth = action({
     });
 
     console.info(
-      `[key-access] user=${clerkId} email=${identity.email ?? "unknown"} time=${new Date(now).toISOString()}`
+      `[key-access] user=${clerkId} email=${identity.email ?? "unknown"} time=${new Date(now).toISOString()} temp_key_expires=${tempKey.expires_at}`
     );
 
     return {
-      sonioxApiKey,
-      expiresAt: now + KEY_TTL_MS,
+      sonioxApiKey: tempKey.api_key,
+      expiresAt: new Date(tempKey.expires_at).getTime(),
       config: {
         model: "stt-rt-v4",
         languageHints: ["ja", "en"],

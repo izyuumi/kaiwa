@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 
 enum SessionState {
     case idle
@@ -76,8 +77,10 @@ class SessionViewModel: ObservableObject {
             try audioService.start()
 
             state = .listening
+            Self.playHaptic(.success)
         } catch {
             state = .error(Self.startErrorMessage(from: error))
+            Self.playHaptic(.error)
         }
     }
 
@@ -86,6 +89,7 @@ class SessionViewModel: ObservableObject {
         await sonioxService.disconnect()
         state = .idle
         interimText = ""
+        Self.playHaptic(.warning)
     }
 
     private func handleFinalUtterance(text: String, language: String) {
@@ -137,6 +141,11 @@ class SessionViewModel: ObservableObject {
 }
 
 private extension SessionViewModel {
+    static func playHaptic(_ type: UINotificationFeedbackGenerator.FeedbackType) {
+        let generator = UINotificationFeedbackGenerator()
+        generator.notificationOccurred(type)
+    }
+
     static func startErrorMessage(from error: Error) -> String {
         let message = error.localizedDescription
         if message.contains("SONIOX_API_KEY") {

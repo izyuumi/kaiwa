@@ -53,16 +53,31 @@ struct TranscriptView: View {
         }
     }
 
+    @State private var copiedEntryId: UUID?
+
     private func entryView(_ entry: ConversationEntry) -> some View {
         let isJapaneseOriginal = entry.detectedLanguage.hasPrefix("ja")
         let original = isJapaneseOriginal ? entry.jp : entry.en
         let translated = isJapaneseOriginal ? entry.en : entry.jp
+        let fullText = "\(original)  →  \(translated)"
+        let isCopied = copiedEntryId == entry.id
 
-        return Text("\(original)  \u{2192}  \(translated)")
+        return Text(isCopied ? "Copied!" : fullText)
             .font(.system(size: 22, weight: .regular))
-            .foregroundColor(entry.isTranslating ? .gray : .white)
+            .foregroundColor(isCopied ? .green : (entry.isTranslating ? .gray : .white))
             .italic(entry.isTranslating)
             .frame(maxWidth: .infinity, alignment: .leading)
+            .contentShape(Rectangle())
+            .onTapGesture(count: 2) {
+                UIPasteboard.general.string = fullText
+                withAnimation { copiedEntryId = entry.id }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                    withAnimation { if copiedEntryId == entry.id { copiedEntryId = nil } }
+                }
+            }
+            .accessibilityAction(named: "Copy") {
+                UIPasteboard.general.string = fullText
+            }
     }
 
     private var interimView: some View {

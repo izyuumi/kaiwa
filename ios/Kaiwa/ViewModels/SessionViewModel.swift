@@ -25,6 +25,9 @@ class SessionViewModel: ObservableObject {
     private let sonioxService = SonioxService()
     private let audioService = AudioCaptureService()
 
+    /// Cached session auth to avoid redundant key requests
+    private var cachedAuth: SessionAuthResponse?
+
     init() {
         audioService.delegate = self
         sonioxService.setDelegate(self)
@@ -53,8 +56,14 @@ class SessionViewModel: ObservableObject {
             audioService.stop()
             await sonioxService.disconnect()
 
-            // Get auth from Convex
-            let auth = try await convexService.getSessionAuth()
+            // Get auth from Convex (use cache if still valid)
+            let auth: SessionAuthResponse
+            if let cached = cachedAuth, cached.expiresAt > Double(Date().timeIntervalSince1970 * 1000) {
+                auth = cached
+            } else {
+                auth = try await convexService.getSessionAuth()
+                cachedAuth = auth
+            }
 
             // Connect to Soniox
             try await sonioxService.connect(

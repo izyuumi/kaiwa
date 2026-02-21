@@ -42,11 +42,24 @@ final class SonioxService: @unchecked Sendable {
         let configString = String(data: configData, encoding: .utf8)!
         try await webSocketTask?.send(.string(configString))
 
-        // Wait for the first server response to confirm the connection is live
+        // Wait for the first server response with a timeout
         guard let task = webSocketTask else {
             throw SonioxError.serverError("WebSocket task deallocated")
         }
-        let firstMessage = try await task.receive()
+        let firstMessage: URLSessionWebSocketTask.Message = try await withThrowingTaskGroup(of: URLSessionWebSocketTask.Message.self) { group in
+            group.addTask {
+                try await task.receive()
+            }
+            group.addTask {
+                try await Task.sleep(nanoseconds: 10_000_000_000) // 10 seconds
+                throw SonioxError.connectionTimeout
+            }
+            guard let result = try await group.next() else {
+                throw SonioxError.connectionTimeout
+            }
+            group.cancelAll()
+            return result
+        }
         switch firstMessage {
         case .string(let text):
             if text.contains("\"error_code\"") {
@@ -175,11 +188,13 @@ final class SonioxService: @unchecked Sendable {
 
 enum SonioxError: Error, LocalizedError {
     case invalidURL
+    case connectionTimeout
     case serverError(String)
 
     var errorDescription: String? {
         switch self {
         case .invalidURL: return "Invalid Soniox WebSocket URL"
+        case .connectionTimeout: return "Connection timed out. Check your internet and try again."
         case .serverError(let msg): return "Soniox error: \(msg)"
         }
     }

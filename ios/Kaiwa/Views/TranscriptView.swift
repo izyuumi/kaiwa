@@ -81,6 +81,24 @@ struct TranscriptView: View {
                 .italic(entry.isTranslating)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
+        .contentShape(Rectangle())
+        .contextMenu {
+            Button {
+                UIPasteboard.general.string = original
+            } label: {
+                Label("Copy Original", systemImage: "doc.on.doc")
+            }
+            Button {
+                UIPasteboard.general.string = translated
+            } label: {
+                Label("Copy Translation", systemImage: "doc.on.doc.fill")
+            }
+            Button {
+                UIPasteboard.general.string = "\(original) → \(translated)"
+            } label: {
+                Label("Copy Both", systemImage: "doc.on.clipboard")
+            }
+        }
     }
 
     private var interimView: some View {

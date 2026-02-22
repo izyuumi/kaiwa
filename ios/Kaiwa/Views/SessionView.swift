@@ -51,10 +51,12 @@ struct SessionView: View {
             await viewModel.startSession()
         }
         .onAppear {
+            UIApplication.shared.isIdleTimerDisabled = true
             // Lock to portrait — the split-screen layout doesn't work well in landscape
             AppDelegate.orientationLock = .portrait
         }
         .onDisappear {
+            UIApplication.shared.isIdleTimerDisabled = false
             AppDelegate.orientationLock = .all
             Task { await viewModel.stopSession() }
         }

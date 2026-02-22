@@ -202,7 +202,6 @@ final class SonioxService: @unchecked Sendable {
 
     private func parseHandshakeMessage(_ message: URLSessionWebSocketTask.Message) throws {
         switch message {
->>>>>>> origin/main
         case .string(let text):
             if text.contains("\"error_code\"") {
                 throw SonioxError.serverError(text)

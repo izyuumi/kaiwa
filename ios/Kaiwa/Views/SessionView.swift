@@ -189,24 +189,31 @@ struct SessionView: View {
             } label: {
                 controlIcon(systemName: "play.fill", color: .green)
             }
+            .accessibilityLabel("Start session")
+            .accessibilityHint("Begin real-time translation")
         case .connecting:
             ProgressView()
                 .tint(.white)
                 .scaleEffect(1.5)
                 .frame(width: 56, height: 56)
                 .background(Circle().fill(Color.white.opacity(0.1)))
+                .accessibilityLabel("Connecting")
         case .reconnecting:
             Button {
                 Task { await viewModel.stopSession() }
             } label: {
                 controlIcon(systemName: "stop.fill", color: .orange)
             }
+            .accessibilityLabel("Stop reconnecting")
+            .accessibilityHint("Cancel reconnect attempts")
         case .listening:
             Button {
                 Task { await viewModel.stopSession() }
             } label: {
                 controlIcon(systemName: "stop.fill", color: .red)
             }
+            .accessibilityLabel("Stop session")
+            .accessibilityHint("End real-time translation")
         }
     }
 

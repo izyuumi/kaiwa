@@ -151,12 +151,22 @@ struct SessionView: View {
                 Spacer()
             }
             if case .error(let message) = viewModel.state {
-                Text(message)
-                    .font(.caption)
-                    .foregroundColor(.red.opacity(0.9))
-                    .multilineTextAlignment(.center)
+                Button {
+                    Task { await viewModel.startSession() }
+                } label: {
+                    VStack(spacing: 4) {
+                        Text(message)
+                            .font(.caption)
+                            .foregroundColor(.red.opacity(0.9))
+                            .multilineTextAlignment(.center)
+                        Text("Tap to retry")
+                            .font(.caption2)
+                            .foregroundColor(.gray)
+                    }
                     .padding(.horizontal, 24)
                     .padding(.top, 12)
+                }
+                .accessibilityLabel("Error: \(message). Tap to retry")
             }
             if case .reconnecting(let attempt) = viewModel.state {
                 Text("Reconnecting... (attempt \(attempt))")

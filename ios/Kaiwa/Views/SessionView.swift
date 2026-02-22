@@ -31,6 +31,9 @@ struct SessionView: View {
         .task {
             await viewModel.startSession()
         }
+        .onDisappear {
+            Task { await viewModel.stopSession() }
+        }
     }
 
     private func topHalf(height: CGFloat) -> some View {
@@ -40,6 +43,7 @@ struct SessionView: View {
             language: isJP ? .jp : .en,
             interimText: viewModel.interimText,
             interimLanguage: viewModel.interimLanguage,
+            interimConfidence: viewModel.interimConfidence,
             showJapanese: isJP,
             isListening: isListening
         )
@@ -53,6 +57,7 @@ struct SessionView: View {
             language: isJP ? .jp : .en,
             interimText: viewModel.interimText,
             interimLanguage: viewModel.interimLanguage,
+            interimConfidence: viewModel.interimConfidence,
             showJapanese: isJP,
             isListening: isListening
         )
@@ -60,28 +65,64 @@ struct SessionView: View {
     }
 
     private var dividerBar: some View {
-        Rectangle()
-            .fill(Color.gray.opacity(0.3))
-            .frame(height: 4)
+        Button {
+            withAnimation(.easeInOut(duration: 0.3)) {
+                viewModel.languageSide = viewModel.languageSide == .topJP ? .topEN : .topJP
+            }
+        } label: {
+            HStack {
+                Spacer()
+                Image(systemName: "arrow.up.arrow.down")
+                    .font(.caption2)
+                    .foregroundColor(.white.opacity(0.6))
+                Spacer()
+            }
+            .frame(height: 28)
+            .background(Color.gray.opacity(0.15))
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel("Swap language sides")
     }
 
     private var isListening: Bool {
         if case .listening = viewModel.state { return true }
+        if case .reconnecting = viewModel.state { return true }
         return false
     }
 
     private var controlsOverlay: some View {
         VStack {
             Spacer()
-            HStack {
+            HStack(spacing: 16) {
                 Spacer()
+                if isListening {
+                    VoiceActivityDot()
+                }
                 controlButton
+                if isListening {
+                    // Entry count
+                    Text("\(viewModel.entries.count)")
+                        .font(.system(.caption2, design: .monospaced))
+                        .foregroundColor(.white.opacity(0.4))
+                        .frame(width: 24)
+                } else {
+                    Spacer().frame(width: 24)
+                }
                 Spacer()
             }
             if case .error(let message) = viewModel.state {
                 Text(message)
                     .font(.caption)
                     .foregroundColor(.red.opacity(0.9))
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 24)
+                    .padding(.top, 12)
+            }
+            if case .reconnecting(let attempt) = viewModel.state {
+                Text("Reconnecting... (attempt \(attempt))")
+                    .font(.caption)
+                    .foregroundColor(.orange.opacity(0.95))
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 24)
                     .padding(.top, 12)
@@ -105,6 +146,12 @@ struct SessionView: View {
                 .scaleEffect(1.5)
                 .frame(width: 56, height: 56)
                 .background(Circle().fill(Color.white.opacity(0.1)))
+        case .reconnecting:
+            Button {
+                Task { await viewModel.stopSession() }
+            } label: {
+                controlIcon(systemName: "stop.fill", color: .orange)
+            }
         case .listening:
             Button {
                 Task { await viewModel.stopSession() }
@@ -121,5 +168,23 @@ struct SessionView: View {
             .frame(width: 56, height: 56)
             .background(Circle().fill(Color.white.opacity(0.1)).blur(radius: 0.5))
             .overlay(Circle().stroke(color.opacity(0.5), lineWidth: 1))
+    }
+}
+
+struct VoiceActivityDot: View {
+    @State private var pulsing = false
+
+    var body: some View {
+        Circle()
+            .fill(Color.green)
+            .frame(width: 8, height: 8)
+            .scaleEffect(pulsing ? 1.5 : 1.0)
+            .opacity(pulsing ? 0.5 : 1.0)
+            .animation(
+                .easeInOut(duration: 0.8)
+                .repeatForever(autoreverses: true),
+                value: pulsing
+            )
+            .onAppear { pulsing = true }
     }
 }

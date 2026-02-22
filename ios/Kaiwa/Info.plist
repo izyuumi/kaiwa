@@ -5,22 +5,11 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>会話</string>
+	<string>Kaiwa</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
-			</array>
-		</dict>
-	</array>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -31,19 +20,6 @@
 	<string>${MARKETING_VERSION}</string>
 	<key>CFBundleVersion</key>
 	<string>${CURRENT_PROJECT_VERSION}</string>
-	<key>ITSAppUsesNonExemptEncryption</key>
-	<false/>
-	<key>KaiwaBuildDevelopmentTeam</key>
-	<string>$(DEVELOPMENT_TEAM)</string>
-	<key>KaiwaExpectedAppleSignInModes</key>
-	<array>
-		<string>Default</string>
-	</array>
-	<key>KaiwaExpectedAssociatedDomains</key>
-	<array>
-		<string>applinks:clerk.kaiwa.yumi.to</string>
-		<string>webcredentials:clerk.kaiwa.yumi.to</string>
-	</array>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Kaiwa needs microphone access to transcribe and translate conversations in real-time.</string>
 	<key>UILaunchScreen</key>
@@ -52,16 +28,11 @@
 	<true/>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
 </dict>
 </plist>

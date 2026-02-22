@@ -278,12 +278,18 @@ class SessionViewModel: ObservableObject {
                         confidence: current.confidence
                     )
 
+                    // Subtle haptic to signal translation arrived
+                    let generator = UIImpactFeedbackGenerator(style: .light)
+                    generator.impactOccurred()
+
                     if let finished = self.entries.first(where: { $0.id == current.entryId }) {
                         self.historyEntries.insert(finished, at: 0)
                         await self.storageService.saveHistory(self.historyEntries)
                     }
                 } catch {
                     print("Translation error: \(error)")
+                    let errorGenerator = UINotificationFeedbackGenerator()
+                    errorGenerator.notificationOccurred(.error)
                     let isJapanese = current.language.hasPrefix("ja")
                     self.updateEntry(
                         id: current.entryId,

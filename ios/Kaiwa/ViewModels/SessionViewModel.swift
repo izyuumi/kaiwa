@@ -90,6 +90,30 @@ class SessionViewModel: ObservableObject {
         }
     }
 
+    /// Export conversation as formatted text
+    func exportTranscript() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .medium
+        dateFormatter.timeStyle = .short
+
+        var lines: [String] = ["Kaiwa Transcript"]
+        if let first = entries.first {
+            lines.append(dateFormatter.string(from: first.timestamp))
+        }
+        lines.append(String(repeating: "─", count: 40))
+        lines.append("")
+
+        for entry in entries where !entry.isTranslating {
+            let time = DateFormatter.localizedString(from: entry.timestamp, dateStyle: .none, timeStyle: .medium)
+            lines.append("[\(time)]")
+            lines.append("🇯🇵 \(entry.jp)")
+            lines.append("🇺🇸 \(entry.en)")
+            lines.append("")
+        }
+
+        return lines.joined(separator: "\n")
+    }
+
     func clearTranscript() {
         entries.removeAll()
         interimText = ""

@@ -4,6 +4,7 @@ struct SessionView: View {
     @ObservedObject var viewModel: SessionViewModel
     @ObservedObject private var network = NetworkMonitor.shared
     let onBack: () -> Void
+    @State private var showingShareSheet = false
 
     var body: some View {
         ZStack {
@@ -138,6 +139,8 @@ struct SessionView: View {
                 if isListening {
                     VoiceActivityDot()
                 }
+                shareButton
+                Spacer()
                 controlButton
                 if isListening {
                     // Entry count
@@ -179,6 +182,24 @@ struct SessionView: View {
                     .padding(.top, 12)
             }
             Spacer()
+        }
+    }
+
+    private var shareButton: some View {
+        Button {
+            showingShareSheet = true
+        } label: {
+            Image(systemName: "square.and.arrow.up")
+                .font(.title3)
+                .foregroundColor(.white.opacity(0.7))
+                .frame(width: 44, height: 44)
+                .background(Circle().fill(Color.white.opacity(0.08)))
+        }
+        .disabled(viewModel.entries.isEmpty)
+        .opacity(viewModel.entries.isEmpty ? 0.3 : 1.0)
+        .sheet(isPresented: $showingShareSheet) {
+            let text = viewModel.exportTranscript()
+            ShareSheet(items: [text])
         }
     }
 

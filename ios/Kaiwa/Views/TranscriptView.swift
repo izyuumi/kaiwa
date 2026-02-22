@@ -13,6 +13,8 @@ struct TranscriptView: View {
     let showJapanese: Bool
     let isListening: Bool
 
+    @State private var isScrolledToBottom = true
+
     var body: some View {
         ZStack {
             ScrollViewReader { proxy in
@@ -27,23 +29,57 @@ struct TranscriptView: View {
                             interimView
                                 .id("interim")
                         }
+
+                        // Invisible anchor at the bottom
+                        Color.clear
+                            .frame(height: 1)
+                            .id("bottom")
                     }
                     .padding(.horizontal, 20)
                     .padding(.vertical, 16)
                 }
                 .onChange(of: entries.count) { _, _ in
-                    withAnimation(.easeOut(duration: 0.2)) {
-                        if !entries.isEmpty {
-                            proxy.scrollTo(entries.last?.id, anchor: .bottom)
+                    if isScrolledToBottom, !entries.isEmpty {
+                        withAnimation(.easeOut(duration: 0.2)) {
+                            proxy.scrollTo("bottom", anchor: .bottom)
                         }
                     }
                 }
                 .onChange(of: interimText) { _, _ in
-                    if !interimText.isEmpty {
+                    if isScrolledToBottom, !interimText.isEmpty {
                         withAnimation(.easeOut(duration: 0.1)) {
-                            proxy.scrollTo("interim", anchor: .bottom)
+                            proxy.scrollTo("bottom", anchor: .bottom)
                         }
                     }
+                }
+                .simultaneousGesture(
+                    DragGesture().onChanged { value in
+                        // User scrolling up → pause auto-scroll
+                        if value.translation.height > 10 {
+                            isScrolledToBottom = false
+                        }
+                    }
+                )
+
+                // "Scroll to bottom" button when paused
+                if !isScrolledToBottom {
+                    VStack {
+                        Spacer()
+                        Button {
+                            isScrolledToBottom = true
+                            withAnimation(.easeOut(duration: 0.2)) {
+                                proxy.scrollTo("bottom", anchor: .bottom)
+                            }
+                        } label: {
+                            Image(systemName: "arrow.down.circle.fill")
+                                .font(.title2)
+                                .foregroundColor(.white.opacity(0.8))
+                                .padding(8)
+                                .background(Circle().fill(Color.black.opacity(0.5)))
+                        }
+                        .padding(.bottom, 8)
+                    }
+                    .transition(.opacity)
                 }
             }
 

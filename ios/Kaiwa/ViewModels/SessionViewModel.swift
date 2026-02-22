@@ -90,6 +90,12 @@ class SessionViewModel: ObservableObject {
         }
     }
 
+    func clearTranscript() {
+        entries.removeAll()
+        interimText = ""
+        interimLanguage = ""
+    }
+
     func stopSession() async {
         isStoppingSession = true
         audioService.stop()

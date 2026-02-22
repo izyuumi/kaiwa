@@ -50,7 +50,12 @@ struct SessionView: View {
         .task {
             await viewModel.startSession()
         }
+        .onAppear {
+            // Lock to portrait — the split-screen layout doesn't work well in landscape
+            AppDelegate.orientationLock = .portrait
+        }
         .onDisappear {
+            AppDelegate.orientationLock = .all
             Task { await viewModel.stopSession() }
         }
     }

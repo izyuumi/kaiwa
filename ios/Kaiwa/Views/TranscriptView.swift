@@ -90,12 +90,22 @@ struct TranscriptView: View {
         }
     }
 
+    private static let timeFormatter: DateFormatter = {
+        let f = DateFormatter()
+        f.dateFormat = "HH:mm"
+        return f
+    }()
+
     private func entryView(_ entry: ConversationEntry) -> some View {
         let isJapaneseOriginal = entry.detectedLanguage.hasPrefix("ja")
         let original = isJapaneseOriginal ? entry.jp : entry.en
         let translated = isJapaneseOriginal ? entry.en : entry.jp
 
         return VStack(alignment: .leading, spacing: 6) {
+            Text(Self.timeFormatter.string(from: entry.timestamp))
+                .font(.system(size: 11, weight: .medium))
+                .foregroundColor(.gray.opacity(0.5))
+
             HStack(spacing: 8) {
                 Text(languageBadge(for: entry.detectedLanguage))
                     .font(.caption2.weight(.semibold))
@@ -110,7 +120,6 @@ struct TranscriptView: View {
                         .foregroundColor(.gray)
                 }
             }
-
             Text("\(original)  \u{2192}  \(translated)")
                 .font(.system(size: 22, weight: .regular))
                 .foregroundColor(entry.isTranslating ? .gray : .white)

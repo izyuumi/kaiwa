@@ -78,12 +78,33 @@ final class SonioxService: @unchecked Sendable {
         }
         try await task.send(.string(configString))
 
-        let firstMessage = try await task.receive()
+        let firstMessage = try await receiveMessageWithTimeout(task, seconds: 10)
         try parseHandshakeMessage(firstMessage)
 
         isConnected = true
         startPingLoop(for: task)
         startReceiveLoop(for: task)
+    }
+
+    private func receiveMessageWithTimeout(
+        _ task: URLSessionWebSocketTask,
+        seconds: UInt64
+    ) async throws -> URLSessionWebSocketTask.Message {
+        try await withThrowingTaskGroup(of: URLSessionWebSocketTask.Message.self) { group in
+            group.addTask {
+                try await task.receive()
+            }
+            group.addTask {
+                try await Task.sleep(nanoseconds: seconds * 1_000_000_000)
+                throw SonioxError.connectionTimeout
+            }
+
+            guard let result = try await group.next() else {
+                throw SonioxError.connectionTimeout
+            }
+            group.cancelAll()
+            return result
+        }
     }
 
     private func startPingLoop(for task: URLSessionWebSocketTask) {
@@ -279,7 +300,7 @@ final class SonioxService: @unchecked Sendable {
                 return !(lowered.contains("unauthorized") || lowered.contains("invalid api key"))
             case .invalidURL, .invalidServerResponse:
                 return false
-            case .connectionLost:
+            case .connectionTimeout, .connectionLost:
                 return true
             }
         }
@@ -320,6 +341,7 @@ private struct ConnectionConfig {
 
 enum SonioxError: Error, LocalizedError {
     case invalidURL
+    case connectionTimeout
     case serverError(String)
     case invalidServerResponse
     case connectionLost
@@ -328,6 +350,8 @@ enum SonioxError: Error, LocalizedError {
         switch self {
         case .invalidURL:
             return "Invalid Soniox WebSocket URL"
+        case .connectionTimeout:
+            return "Connection timed out. Check your internet and try again."
         case .serverError(let msg):
             return "Soniox error: \(msg)"
         case .invalidServerResponse:

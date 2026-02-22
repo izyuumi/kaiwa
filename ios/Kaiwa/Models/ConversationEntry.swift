@@ -1,12 +1,13 @@
 import Foundation
 
-struct ConversationEntry: Identifiable {
+struct ConversationEntry: Identifiable, Codable, Hashable {
     let id: UUID
     let jp: String
     let en: String
     let detectedLanguage: String
     let timestamp: Date
     let isTranslating: Bool
+    let confidence: Double?
 
     init(
         id: UUID = UUID(),
@@ -14,7 +15,8 @@ struct ConversationEntry: Identifiable {
         en: String,
         detectedLanguage: String,
         timestamp: Date = Date(),
-        isTranslating: Bool = false
+        isTranslating: Bool = false,
+        confidence: Double? = nil
     ) {
         self.id = id
         self.jp = jp
@@ -22,5 +24,6 @@ struct ConversationEntry: Identifiable {
         self.detectedLanguage = detectedLanguage
         self.timestamp = timestamp
         self.isTranslating = isTranslating
+        self.confidence = confidence
     }
 }

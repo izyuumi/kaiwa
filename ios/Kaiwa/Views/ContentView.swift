@@ -58,10 +58,21 @@ struct ContentView: View {
                             Button(action: {
                                 showingHistoryGlossary = true
                             }) {
-                                Image(systemName: "book.closed")
-                                    .font(.title3)
-                                    .foregroundColor(.green)
-                                    .padding(12)
+                                ZStack(alignment: .topTrailing) {
+                                    Image(systemName: "book.closed")
+                                        .font(.title3)
+                                        .foregroundColor(.green)
+                                        .padding(12)
+
+                                    if !viewModel.glossaryItems.isEmpty {
+                                        Text("\(viewModel.glossaryItems.count)")
+                                            .font(.system(size: 10, weight: .bold))
+                                            .foregroundColor(.white)
+                                            .frame(minWidth: 16, minHeight: 16)
+                                            .background(Circle().fill(Color.green))
+                                            .offset(x: -2, y: 4)
+                                    }
+                                }
                             }
 
                             Spacer()

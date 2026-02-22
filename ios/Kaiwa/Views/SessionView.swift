@@ -94,9 +94,21 @@ struct SessionView: View {
     private var controlsOverlay: some View {
         VStack {
             Spacer()
-            HStack {
+            HStack(spacing: 16) {
                 Spacer()
+                if isListening {
+                    VoiceActivityDot()
+                }
                 controlButton
+                if isListening {
+                    // Entry count
+                    Text("\(viewModel.entries.count)")
+                        .font(.system(.caption2, design: .monospaced))
+                        .foregroundColor(.white.opacity(0.4))
+                        .frame(width: 24)
+                } else {
+                    Spacer().frame(width: 24)
+                }
                 Spacer()
             }
             if case .error(let message) = viewModel.state {
@@ -156,5 +168,23 @@ struct SessionView: View {
             .frame(width: 56, height: 56)
             .background(Circle().fill(Color.white.opacity(0.1)).blur(radius: 0.5))
             .overlay(Circle().stroke(color.opacity(0.5), lineWidth: 1))
+    }
+}
+
+struct VoiceActivityDot: View {
+    @State private var pulsing = false
+
+    var body: some View {
+        Circle()
+            .fill(Color.green)
+            .frame(width: 8, height: 8)
+            .scaleEffect(pulsing ? 1.5 : 1.0)
+            .opacity(pulsing ? 0.5 : 1.0)
+            .animation(
+                .easeInOut(duration: 0.8)
+                .repeatForever(autoreverses: true),
+                value: pulsing
+            )
+            .onAppear { pulsing = true }
     }
 }

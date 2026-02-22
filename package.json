@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "npx convex dev",
-    "deploy": "npx convex deploy"
+    "deploy": "npx convex deploy",
+    "test:convex": "tsx --test convex/**/*.test.ts"
   },
   "repository": {
     "type": "git",
@@ -26,6 +27,7 @@
   },
   "devDependencies": {
     "@types/node": "^25.3.0",
+    "tsx": "^4.20.6",
     "typescript": "^5.9.3"
   }
 }

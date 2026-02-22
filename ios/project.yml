@@ -30,6 +30,13 @@ targets:
         product: ClerkKit
       - package: ClerkKit
         product: ClerkKitUI
+  KaiwaTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - KaiwaTests
+    dependencies:
+      - target: Kaiwa
     info:
       path: Kaiwa/Info.plist
       properties:

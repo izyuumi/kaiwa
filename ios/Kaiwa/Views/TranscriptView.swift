@@ -14,6 +14,7 @@ struct TranscriptView: View {
     let isListening: Bool
 
     @State private var isScrolledToBottom = true
+    @State private var shareText: String?
 
     var body: some View {
         ZStack {
@@ -88,6 +89,14 @@ struct TranscriptView: View {
                 listeningIndicator
             }
         }
+        .sheet(isPresented: Binding(
+            get: { shareText != nil },
+            set: { if !$0 { shareText = nil } }
+        )) {
+            if let text = shareText {
+                ShareSheet(items: [text])
+            }
+        }
     }
 
     private static let timeFormatter: DateFormatter = {
@@ -142,6 +151,12 @@ struct TranscriptView: View {
                 UIPasteboard.general.string = "\(original) → \(translated)"
             } label: {
                 Label("Copy Both", systemImage: "doc.on.clipboard")
+            }
+            Divider()
+            Button {
+                shareText = "\(original) → \(translated)"
+            } label: {
+                Label("Share", systemImage: "square.and.arrow.up")
             }
         }
     }

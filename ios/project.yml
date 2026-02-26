@@ -21,6 +21,7 @@ targets:
       PRODUCT_BUNDLE_IDENTIFIER: to.yumi.kaiwa
       DEVELOPMENT_TEAM: AN5KM8QGEF
       CODE_SIGN_STYLE: Automatic
+      CODE_SIGN_ENTITLEMENTS: Kaiwa/Kaiwa.entitlements
       MARKETING_VERSION: "0.1.0"
       CURRENT_PROJECT_VERSION: "4"
       TARGETED_DEVICE_FAMILY: "1,2"

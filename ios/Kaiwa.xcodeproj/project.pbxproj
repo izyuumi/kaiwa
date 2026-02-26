@@ -15,12 +15,15 @@
 		4D7A04037F9C120E96D70F2D /* SessionStorageServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7D6AAD08D29767B55BA1009 /* SessionStorageServiceTests.swift */; };
 		5B6E68F4E50F3F779A29F5D0 /* HistoryGlossaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9674C37AF66208B8DA10EC16 /* HistoryGlossaryView.swift */; };
 		5C07A19AB317C18F63642017 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22169ACA9FE0535F118D7167 /* ContentView.swift */; };
+		5CB4B093A1D3A79A892E8A09 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703F9C0BC2BD6ADE3393837F /* NetworkMonitor.swift */; };
 		5F35F91365760904FD865DCB /* Config.plist.example in Resources */ = {isa = PBXBuildFile; fileRef = 8A100E10EA34F0AA4E77A180 /* Config.plist.example */; };
 		64F6B859F93C20CDC67C860A /* ConvexService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91FFC7DB354A475D2ECE02C3 /* ConvexService.swift */; };
 		6FB543AA98DA99447AAE70E9 /* ClerkKitUI in Frameworks */ = {isa = PBXBuildFile; productRef = 6113D809F20AB53152BC4470 /* ClerkKitUI */; };
 		74B0AAB74C3B850E3C2E360D /* KaiwaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A97712E61834A04073550E2F /* KaiwaApp.swift */; };
 		79D8EEC19ED8C103559CEC3C /* SessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5E2846244019BC7288BEB7 /* SessionView.swift */; };
+		7BB868C390FC5D37A8EB3B0D /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6566F1D7E1C5AF5B3AEEE36B /* ShareSheet.swift */; };
 		87C4F97A0419F7EF9395532B /* ClerkKit in Frameworks */ = {isa = PBXBuildFile; productRef = 114B18EBF620814DB3C447F7 /* ClerkKit */; };
+		94850EE01EB841BCD6AFE061 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BAB3559E66E2A0AF553B0F4 /* AppDelegate.swift */; };
 		9CC14F980D6DF4FEF30F399F /* ConversationEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B5018EF367CCE379CB47C9 /* ConversationEntry.swift */; };
 		A016FE205172309EDA3F586D /* GlossaryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AFD7AD79D0BD65050FAB9F1 /* GlossaryItem.swift */; };
 		BE14CFBEF2A1AE412DAE5D90 /* TranscriptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E133294D23BACFDF127163F /* TranscriptView.swift */; };
@@ -52,6 +55,9 @@
 		41FAAA2AAF9F7C64C5E2F2BE /* SessionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionViewModel.swift; sourceTree = "<group>"; };
 		586BDAB46FC32D62FA52BFDD /* ConversationEntryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationEntryTests.swift; sourceTree = "<group>"; };
 		58C25253E0FB0EC45FE2043F /* Kaiwa.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Kaiwa.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6566F1D7E1C5AF5B3AEEE36B /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
+		6BAB3559E66E2A0AF553B0F4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		703F9C0BC2BD6ADE3393837F /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		759FD257FF4BA335DBCB3785 /* ConfigService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigService.swift; sourceTree = "<group>"; };
 		768FF0391DC3415DC4B614C4 /* SonioxService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SonioxService.swift; sourceTree = "<group>"; };
 		7AFD7AD79D0BD65050FAB9F1 /* GlossaryItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlossaryItem.swift; sourceTree = "<group>"; };
@@ -91,6 +97,7 @@
 				9674C37AF66208B8DA10EC16 /* HistoryGlossaryView.swift */,
 				CF5E2846244019BC7288BEB7 /* SessionView.swift */,
 				D91D5E339F11D3B77C34A7E0 /* SetupView.swift */,
+				6566F1D7E1C5AF5B3AEEE36B /* ShareSheet.swift */,
 				8E133294D23BACFDF127163F /* TranscriptView.swift */,
 			);
 			path = Views;
@@ -107,6 +114,7 @@
 		249E0557785090128FCC8AD0 /* Kaiwa */ = {
 			isa = PBXGroup;
 			children = (
+				6BAB3559E66E2A0AF553B0F4 /* AppDelegate.swift */,
 				BA88841CD4A8456C3168C139 /* Assets.xcassets */,
 				2CEADE429A21658E7E1E298E /* Config.plist */,
 				8A100E10EA34F0AA4E77A180 /* Config.plist.example */,
@@ -127,6 +135,7 @@
 				86758C4B89A5D23BB05B5525 /* AudioCaptureService.swift */,
 				759FD257FF4BA335DBCB3785 /* ConfigService.swift */,
 				91FFC7DB354A475D2ECE02C3 /* ConvexService.swift */,
+				703F9C0BC2BD6ADE3393837F /* NetworkMonitor.swift */,
 				2B361EEDF516406BB0CD8326 /* SessionStorageService.swift */,
 				768FF0391DC3415DC4B614C4 /* SonioxService.swift */,
 			);
@@ -277,6 +286,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				94850EE01EB841BCD6AFE061 /* AppDelegate.swift in Sources */,
 				D1D213316C585EEC6179D1AE /* AudioCaptureService.swift in Sources */,
 				3A272789DA1408B4ABB0EAF4 /* AuthSheet.swift in Sources */,
 				D0141A46CE67E2DAE966101B /* ConfigService.swift in Sources */,
@@ -286,11 +296,13 @@
 				A016FE205172309EDA3F586D /* GlossaryItem.swift in Sources */,
 				5B6E68F4E50F3F779A29F5D0 /* HistoryGlossaryView.swift in Sources */,
 				74B0AAB74C3B850E3C2E360D /* KaiwaApp.swift in Sources */,
+				5CB4B093A1D3A79A892E8A09 /* NetworkMonitor.swift in Sources */,
 				D0D6AF5F3113A4C62B93CFCA /* SessionAuth.swift in Sources */,
 				F176A4D9682B7E733CE1C1C1 /* SessionStorageService.swift in Sources */,
 				79D8EEC19ED8C103559CEC3C /* SessionView.swift in Sources */,
 				0B7C59B1EB80C697649DCFBA /* SessionViewModel.swift in Sources */,
 				043843FB6C2703FDE7B2EF2A /* SetupView.swift in Sources */,
+				7BB868C390FC5D37A8EB3B0D /* ShareSheet.swift in Sources */,
 				22CF99D3FDE38614D7C1C72E /* SonioxService.swift in Sources */,
 				BE14CFBEF2A1AE412DAE5D90 /* TranscriptView.swift in Sources */,
 			);
@@ -447,7 +459,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = AN5KM8QGEF;
@@ -468,7 +480,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "Apple Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = AN5KM8QGEF;

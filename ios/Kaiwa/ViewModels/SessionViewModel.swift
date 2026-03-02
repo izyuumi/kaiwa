@@ -13,6 +13,16 @@ enum LanguageSide {
     case topEN   // top=EN (rotated), bottom=JP
 }
 
+// MARK: – Branch setup payload
+
+/// Carries the branch context for the next session.
+struct PendingBranchSetup {
+    let parentBranchId: UUID
+    let branchPointEntryId: UUID
+    /// Entries from the parent branch up to and including the branch point.
+    let inheritedEntries: [ConversationEntry]
+}
+
 @MainActor
 class SessionViewModel: ObservableObject {
     @Published var state: SessionState = .idle
@@ -24,6 +34,17 @@ class SessionViewModel: ObservableObject {
     @Published var languageSide: LanguageSide = .topJP
     @Published var isApproved: Bool = false
     @Published var glossaryItems: [GlossaryItem] = []
+
+    // MARK: Branch state
+    @Published var branches: [ConversationBranch] = []
+    /// How many entries are "inherited" context (prepended when branching).
+    @Published var inheritedEntryCount: Int = 0
+
+    /// Set before starting a session to branch from a historical point.
+    var pendingBranchSetup: PendingBranchSetup?
+    /// Tracks the parent branch for the currently running session.
+    private var currentParentBranchId: UUID?
+    private var currentBranchPointEntryId: UUID?
 
     private let convexService = ConvexService()
     private let sonioxService = SonioxService()
@@ -71,6 +92,20 @@ class SessionViewModel: ObservableObject {
         interimLanguage = ""
         interimConfidence = nil
 
+        // Apply pending branch setup if present
+        if let setup = pendingBranchSetup {
+            entries = setup.inheritedEntries
+            inheritedEntryCount = setup.inheritedEntries.count
+            currentParentBranchId = setup.parentBranchId
+            currentBranchPointEntryId = setup.branchPointEntryId
+            pendingBranchSetup = nil
+        } else {
+            entries = []
+            inheritedEntryCount = 0
+            currentParentBranchId = nil
+            currentBranchPointEntryId = nil
+        }
+
         do {
             audioService.stop()
             await sonioxService.disconnect()
@@ -116,26 +151,106 @@ class SessionViewModel: ObservableObject {
 
     func clearTranscript() {
         entries.removeAll()
+        inheritedEntryCount = 0
         interimText = ""
         interimLanguage = ""
+        currentParentBranchId = nil
+        currentBranchPointEntryId = nil
     }
 
     func stopSession() async {
         isStoppingSession = true
         audioService.stop()
         await sonioxService.disconnect()
-        // Increment session count if we had any conversation entries
-        if !entries.isEmpty {
+
+        // Save current session as a branch
+        let newEntries = entries.filter { !$0.isTranslating }
+        if !newEntries.isEmpty {
+            let branch = ConversationBranch(
+                parentBranchId: currentParentBranchId,
+                branchPointEntryId: currentBranchPointEntryId,
+                entries: newEntries
+            )
+            branches.insert(branch, at: 0)
+            await storageService.saveBranches(branches)
+
+            // Increment session count
             let key = "kaiwa.totalSessions"
             let current = UserDefaults.standard.integer(forKey: key)
             UserDefaults.standard.set(current + 1, forKey: key)
         }
+
         state = .idle
         interimText = ""
         interimLanguage = ""
         interimConfidence = nil
         isStoppingSession = false
+        inheritedEntryCount = 0
+        currentParentBranchId = nil
+        currentBranchPointEntryId = nil
     }
+
+    // MARK: – Branching
+
+    /// Prepares a branch from the given entry in an existing branch.
+    /// Call this before `startSession()` to pre-load context.
+    func prepareBranchSetup(from entry: ConversationEntry, in branch: ConversationBranch) {
+        guard let idx = branch.entries.firstIndex(where: { $0.id == entry.id }) else { return }
+        let inherited = Array(branch.entries.prefix(through: idx))
+        pendingBranchSetup = PendingBranchSetup(
+            parentBranchId: branch.id,
+            branchPointEntryId: entry.id,
+            inheritedEntries: inherited
+        )
+    }
+
+    /// Branch from an entry in the currently active session.
+    /// Saves the current session (up to and including `entry`) as a branch,
+    /// then restarts listening with those entries as context.
+    func branchFromCurrentSession(at entry: ConversationEntry) async {
+        guard let idx = entries.firstIndex(where: { $0.id == entry.id }) else { return }
+        let entriesUpTo = Array(entries.prefix(through: idx))
+        let completedEntries = entriesUpTo.filter { !$0.isTranslating }
+
+        // Save the partial session as a branch
+        if !completedEntries.isEmpty {
+            let branch = ConversationBranch(
+                parentBranchId: currentParentBranchId,
+                branchPointEntryId: currentBranchPointEntryId,
+                entries: completedEntries
+            )
+            branches.insert(branch, at: 0)
+            await storageService.saveBranches(branches)
+
+            // Prepare new branch context
+            pendingBranchSetup = PendingBranchSetup(
+                parentBranchId: branch.id,
+                branchPointEntryId: entry.id,
+                inheritedEntries: completedEntries
+            )
+        }
+
+        // Restart session with the branch context
+        isStoppingSession = true
+        audioService.stop()
+        await sonioxService.disconnect()
+        isStoppingSession = false
+
+        await startSession()
+    }
+
+    // MARK: – Branch management
+
+    func deleteBranch(id: UUID) {
+        branches.removeAll { $0.id == id }
+        // Also remove any children whose parent was deleted
+        branches.removeAll { $0.parentBranchId == id }
+        Task {
+            await storageService.saveBranches(branches)
+        }
+    }
+
+    // MARK: – History (flat list, kept for backward compat)
 
     func clearHistory() {
         historyEntries = []
@@ -150,6 +265,8 @@ class SessionViewModel: ObservableObject {
             await storageService.saveHistory(historyEntries)
         }
     }
+
+    // MARK: – Glossary
 
     func addGlossaryItem(source: String, target: String) {
         let sourceTrimmed = source.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -185,6 +302,7 @@ class SessionViewModel: ObservableObject {
     private func loadPersistedState() async {
         historyEntries = await storageService.loadHistory()
         glossaryItems = await storageService.loadGlossary()
+        branches = await storageService.loadBranches()
     }
 
     private func sessionAuth() async throws -> SessionAuthResponse {

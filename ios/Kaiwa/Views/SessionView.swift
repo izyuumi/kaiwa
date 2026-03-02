@@ -72,7 +72,11 @@ struct SessionView: View {
             interimLanguage: viewModel.interimLanguage,
             interimConfidence: viewModel.interimConfidence,
             showJapanese: isJP,
-            isListening: isListening
+            isListening: isListening,
+            inheritedEntryCount: viewModel.inheritedEntryCount,
+            onBranchFromEntry: { entry in
+                Task { await viewModel.branchFromCurrentSession(at: entry) }
+            }
         )
         .frame(height: height)
     }
@@ -86,7 +90,11 @@ struct SessionView: View {
             interimLanguage: viewModel.interimLanguage,
             interimConfidence: viewModel.interimConfidence,
             showJapanese: isJP,
-            isListening: isListening
+            isListening: isListening,
+            inheritedEntryCount: viewModel.inheritedEntryCount,
+            onBranchFromEntry: { entry in
+                Task { await viewModel.branchFromCurrentSession(at: entry) }
+            }
         )
         .frame(height: height)
     }

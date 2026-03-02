@@ -96,7 +96,10 @@ struct ContentView: View {
                     await viewModel.checkApproval()
                 }
                 .sheet(isPresented: $showingHistoryGlossary) {
-                    HistoryGlossaryView(viewModel: viewModel)
+                    HistoryGlossaryView(viewModel: viewModel) {
+                        // Branch selected from history — navigate to session view
+                        showingSetup = false
+                    }
                 }
             }
         }

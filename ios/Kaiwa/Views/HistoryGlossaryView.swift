@@ -9,6 +9,9 @@ struct HistoryGlossaryView: View {
     @State private var newSource = ""
     @State private var newTarget = ""
 
+    /// Called when user wants to start a new session branching from history.
+    var onBranchSelected: (() -> Void)?
+
     private var filteredHistory: [ConversationEntry] {
         let q = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !q.isEmpty else { return viewModel.historyEntries }
@@ -22,14 +25,21 @@ struct HistoryGlossaryView: View {
         NavigationStack {
             VStack(spacing: 12) {
                 Picker("Mode", selection: $selectedTab) {
-                    Text("History").tag(0)
-                    Text("Glossary").tag(1)
+                    Text("Sessions").tag(0)
+                    Text("History").tag(1)
+                    Text("Glossary").tag(2)
                 }
                 .pickerStyle(.segmented)
 
-                if selectedTab == 0 {
+                switch selectedTab {
+                case 0:
+                    BranchTreeView(viewModel: viewModel) {
+                        dismiss()
+                        onBranchSelected?()
+                    }
+                case 1:
                     historyContent
-                } else {
+                default:
                     glossaryContent
                 }
             }

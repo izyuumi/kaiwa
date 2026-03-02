@@ -12,6 +12,10 @@ struct TranscriptView: View {
     let interimConfidence: Double?
     let showJapanese: Bool
     let isListening: Bool
+    /// Number of entries that were pre-loaded from a parent branch (shown dimmed).
+    var inheritedEntryCount: Int = 0
+    /// Called when the user wants to branch from a specific entry.
+    var onBranchFromEntry: ((ConversationEntry) -> Void)?
 
     @State private var isScrolledToBottom = true
     @State private var shareText: String?
@@ -105,22 +109,42 @@ struct TranscriptView: View {
         return f
     }()
 
+    private func isInherited(_ entry: ConversationEntry) -> Bool {
+        guard inheritedEntryCount > 0,
+              let idx = entries.firstIndex(where: { $0.id == entry.id }) else {
+            return false
+        }
+        return idx < inheritedEntryCount
+    }
+
     private func entryView(_ entry: ConversationEntry) -> some View {
         let isJapaneseOriginal = entry.detectedLanguage.hasPrefix("ja")
         let original = isJapaneseOriginal ? entry.jp : entry.en
         let translated = isJapaneseOriginal ? entry.en : entry.jp
+        let inherited = isInherited(entry)
 
         return VStack(alignment: .leading, spacing: 6) {
-            Text(Self.timeFormatter.string(from: entry.timestamp))
-                .font(.system(size: 11, weight: .medium))
-                .foregroundColor(.gray.opacity(0.5))
+            HStack(spacing: 6) {
+                Text(Self.timeFormatter.string(from: entry.timestamp))
+                    .font(.system(size: 11, weight: .medium))
+                    .foregroundColor(.gray.opacity(0.5))
+                if inherited {
+                    Label("Context", systemImage: "arrow.branch")
+                        .font(.system(size: 10))
+                        .foregroundColor(.orange.opacity(0.7))
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 2)
+                        .background(Color.orange.opacity(0.12))
+                        .clipShape(Capsule())
+                }
+            }
 
             HStack(spacing: 8) {
                 Text(languageBadge(for: entry.detectedLanguage))
                     .font(.caption2.weight(.semibold))
                     .padding(.horizontal, 8)
                     .padding(.vertical, 3)
-                    .background(Color.white.opacity(0.12))
+                    .background(Color.white.opacity(inherited ? 0.06 : 0.12))
                     .clipShape(Capsule())
 
                 if let confidence = entry.confidence {
@@ -131,8 +155,8 @@ struct TranscriptView: View {
             }
             Text("\(original)  \u{2192}  \(translated)")
                 .font(.system(size: 22, weight: .regular))
-                .foregroundColor(entry.isTranslating ? .gray : .white)
-                .italic(entry.isTranslating)
+                .foregroundColor(entry.isTranslating ? .gray : (inherited ? .white.opacity(0.5) : .white))
+                .italic(entry.isTranslating || inherited)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .contentShape(Rectangle())
@@ -157,6 +181,14 @@ struct TranscriptView: View {
                 shareText = "\(original) → \(translated)"
             } label: {
                 Label("Share", systemImage: "square.and.arrow.up")
+            }
+            if onBranchFromEntry != nil && !entry.isTranslating {
+                Divider()
+                Button {
+                    onBranchFromEntry?(entry)
+                } label: {
+                    Label("Branch from Here", systemImage: "arrow.branch")
+                }
             }
         }
     }

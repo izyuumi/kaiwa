@@ -12,7 +12,7 @@ struct SessionAuthConfig: Codable {
 
 struct SessionAuthResponse: Codable {
     let sonioxApiKey: String
-    let expiresAt: Double
+    let expiresAt: Double?
     let config: SessionAuthConfig
 }
 

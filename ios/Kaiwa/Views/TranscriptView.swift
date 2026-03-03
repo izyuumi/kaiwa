@@ -54,14 +54,21 @@ struct TranscriptView: View {
     }
 
     private func entryView(_ entry: ConversationEntry) -> some View {
-        let text = showJapanese ? entry.jp : entry.en
-        let isOriginal = (showJapanese && entry.detectedLanguage.hasPrefix("ja"))
-            || (!showJapanese && entry.detectedLanguage.hasPrefix("en"))
+        let primaryText = showJapanese ? entry.jp : entry.en
+        let originalText = entry.detectedLanguage.hasPrefix("ja") ? entry.jp : entry.en
 
-        return Text(text)
-            .font(.system(size: 22, weight: .regular))
-            .foregroundColor(isOriginal ? .white : .white.opacity(0.85))
-            .frame(maxWidth: .infinity, alignment: .leading)
+        return VStack(alignment: .leading, spacing: 4) {
+            if originalText != primaryText {
+                Text(originalText)
+                    .font(.system(size: 14, weight: .regular))
+                    .foregroundColor(.white.opacity(0.5))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            Text(primaryText)
+                .font(.system(size: 22, weight: .regular))
+                .foregroundColor(.white)
+                .frame(maxWidth: .infinity, alignment: .leading)
+        }
     }
 
     private var interimView: some View {

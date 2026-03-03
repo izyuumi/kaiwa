@@ -97,8 +97,16 @@ struct ContentView: View {
                 }
                 .sheet(isPresented: $showingHistoryGlossary) {
                     HistoryGlossaryView(viewModel: viewModel) {
-                        // Branch selected from history — navigate to session view
-                        showingSetup = false
+                        Task {
+                            await viewModel.stopSession()
+                            await MainActor.run {
+                                showingSetup = true
+                            }
+                            await Task.yield()
+                            await MainActor.run {
+                                showingSetup = false
+                            }
+                        }
                     }
                 }
             }

@@ -53,6 +53,7 @@ class SessionViewModel: ObservableObject {
 
     private var cachedAuth: SessionAuthResponse?
     private var isStoppingSession = false
+    private var hasPersistedCurrentSession = false
     private var lastTransportErrorMessage: String?
 
     private var pendingTranslations: [PendingTranslation] = []
@@ -87,6 +88,7 @@ class SessionViewModel: ObservableObject {
         if case .reconnecting = state { return }
 
         isStoppingSession = false
+        hasPersistedCurrentSession = false
         state = .connecting
         interimText = ""
         interimLanguage = ""
@@ -156,6 +158,7 @@ class SessionViewModel: ObservableObject {
         interimLanguage = ""
         currentParentBranchId = nil
         currentBranchPointEntryId = nil
+        hasPersistedCurrentSession = false
     }
 
     func stopSession() async {
@@ -164,17 +167,20 @@ class SessionViewModel: ObservableObject {
         await sonioxService.disconnect()
 
         // Save current session as a branch
-        let newEntries = entries
-            .dropFirst(inheritedEntryCount)
-            .filter { !$0.isTranslating }
-        if !newEntries.isEmpty {
+        let completedEntries = entries.filter { !$0.isTranslating }
+        let hasNewEntries = completedEntries.count > inheritedEntryCount
+        if !hasPersistedCurrentSession && hasNewEntries {
             let branch = ConversationBranch(
                 parentBranchId: currentParentBranchId,
                 branchPointEntryId: currentBranchPointEntryId,
-                entries: newEntries
+                entries: completedEntries
             )
             branches.insert(branch, at: 0)
             await storageService.saveBranches(branches)
+            hasPersistedCurrentSession = true
+            currentParentBranchId = nil
+            currentBranchPointEntryId = nil
+            inheritedEntryCount = 0
 
             // Increment session count
             let key = "kaiwa.totalSessions"

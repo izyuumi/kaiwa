@@ -87,6 +87,26 @@ struct SessionView: View {
                     .padding(.top, 12)
             }
             Spacer()
+
+            // Back to home button
+            Button {
+                Task {
+                    await viewModel.stopSession()
+                    onBack()
+                }
+            } label: {
+                HStack(spacing: 6) {
+                    Image(systemName: "chevron.left")
+                        .font(.caption)
+                    Text("End Session")
+                        .font(.caption)
+                }
+                .foregroundColor(.gray)
+                .padding(.horizontal, 16)
+                .padding(.vertical, 8)
+                .background(Capsule().fill(Color.white.opacity(0.08)))
+            }
+            .padding(.bottom, 16)
         }
     }
 

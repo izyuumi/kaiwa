@@ -98,7 +98,6 @@ class SessionViewModel: ObservableObject {
             inheritedEntryCount = setup.inheritedEntries.count
             currentParentBranchId = setup.parentBranchId
             currentBranchPointEntryId = setup.branchPointEntryId
-            pendingBranchSetup = nil
         } else {
             entries = []
             inheritedEntryCount = 0
@@ -118,6 +117,7 @@ class SessionViewModel: ObservableObject {
             )
 
             try audioService.start()
+            pendingBranchSetup = nil
             state = .listening
             lastTransportErrorMessage = nil
         } catch {
@@ -164,7 +164,9 @@ class SessionViewModel: ObservableObject {
         await sonioxService.disconnect()
 
         // Save current session as a branch
-        let newEntries = entries.filter { !$0.isTranslating }
+        let newEntries = entries
+            .dropFirst(inheritedEntryCount)
+            .filter { !$0.isTranslating }
         if !newEntries.isEmpty {
             let branch = ConversationBranch(
                 parentBranchId: currentParentBranchId,
@@ -236,15 +238,15 @@ class SessionViewModel: ObservableObject {
         await sonioxService.disconnect()
         isStoppingSession = false
 
+        state = .idle
         await startSession()
     }
 
     // MARK: – Branch management
 
     func deleteBranch(id: UUID) {
-        branches.removeAll { $0.id == id }
-        // Also remove any children whose parent was deleted
-        branches.removeAll { $0.parentBranchId == id }
+        let branchIdsToDelete = descendantBranchIds(startingAt: id)
+        branches.removeAll { branchIdsToDelete.contains($0.id) }
         Task {
             await storageService.saveBranches(branches)
         }
@@ -485,6 +487,23 @@ class SessionViewModel: ObservableObject {
         case let (.some(lhs), .some(rhs)):
             return (lhs + rhs) / 2.0
         }
+    }
+
+    private func descendantBranchIds(startingAt rootId: UUID) -> Set<UUID> {
+        var idsToDelete: Set<UUID> = [rootId]
+        var pendingParentIds: [UUID] = [rootId]
+
+        while let parentId = pendingParentIds.popLast() {
+            let childIds = branches.compactMap { branch in
+                branch.parentBranchId == parentId ? branch.id : nil
+            }
+
+            for childId in childIds where idsToDelete.insert(childId).inserted {
+                pendingParentIds.append(childId)
+            }
+        }
+
+        return idsToDelete
     }
 }
 

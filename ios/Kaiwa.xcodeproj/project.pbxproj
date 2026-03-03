@@ -21,8 +21,10 @@
 		6FB543AA98DA99447AAE70E9 /* ClerkKitUI in Frameworks */ = {isa = PBXBuildFile; productRef = 6113D809F20AB53152BC4470 /* ClerkKitUI */; };
 		74B0AAB74C3B850E3C2E360D /* KaiwaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A97712E61834A04073550E2F /* KaiwaApp.swift */; };
 		79D8EEC19ED8C103559CEC3C /* SessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5E2846244019BC7288BEB7 /* SessionView.swift */; };
+		7B6702A349F2F3F9F4E8C8D4 /* ConversationSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E6DCABB7F4D772D8725A84 /* ConversationSession.swift */; };
 		7BB868C390FC5D37A8EB3B0D /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6566F1D7E1C5AF5B3AEEE36B /* ShareSheet.swift */; };
 		87C4F97A0419F7EF9395532B /* ClerkKit in Frameworks */ = {isa = PBXBuildFile; productRef = 114B18EBF620814DB3C447F7 /* ClerkKit */; };
+		911427A848240102DEE56DE8 /* ConversationTreeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F47E51087D1E0288AB0564 /* ConversationTreeView.swift */; };
 		94850EE01EB841BCD6AFE061 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BAB3559E66E2A0AF553B0F4 /* AppDelegate.swift */; };
 		9CC14F980D6DF4FEF30F399F /* ConversationEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B5018EF367CCE379CB47C9 /* ConversationEntry.swift */; };
 		A016FE205172309EDA3F586D /* GlossaryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AFD7AD79D0BD65050FAB9F1 /* GlossaryItem.swift */; };
@@ -47,6 +49,7 @@
 
 /* Begin PBXFileReference section */
 		11BD914B1712F1D84B9EB13F /* KaiwaTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = KaiwaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		16F47E51087D1E0288AB0564 /* ConversationTreeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationTreeView.swift; sourceTree = "<group>"; };
 		22169ACA9FE0535F118D7167 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		2B361EEDF516406BB0CD8326 /* SessionStorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStorageService.swift; sourceTree = "<group>"; };
 		2CEADE429A21658E7E1E298E /* Config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Config.plist; sourceTree = "<group>"; };
@@ -69,6 +72,7 @@
 		A1C8025C853C3B0A9EECEC81 /* Kaiwa.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Kaiwa.entitlements; sourceTree = "<group>"; };
 		A97712E61834A04073550E2F /* KaiwaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KaiwaApp.swift; sourceTree = "<group>"; };
 		BA88841CD4A8456C3168C139 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C2E6DCABB7F4D772D8725A84 /* ConversationSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationSession.swift; sourceTree = "<group>"; };
 		CF5E2846244019BC7288BEB7 /* SessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionView.swift; sourceTree = "<group>"; };
 		D91D5E339F11D3B77C34A7E0 /* SetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupView.swift; sourceTree = "<group>"; };
 		DC98AF3C3DA66CEE624E4233 /* AuthSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSheet.swift; sourceTree = "<group>"; };
@@ -94,6 +98,7 @@
 			children = (
 				DC98AF3C3DA66CEE624E4233 /* AuthSheet.swift */,
 				22169ACA9FE0535F118D7167 /* ContentView.swift */,
+				16F47E51087D1E0288AB0564 /* ConversationTreeView.swift */,
 				9674C37AF66208B8DA10EC16 /* HistoryGlossaryView.swift */,
 				CF5E2846244019BC7288BEB7 /* SessionView.swift */,
 				D91D5E339F11D3B77C34A7E0 /* SetupView.swift */,
@@ -155,6 +160,7 @@
 			isa = PBXGroup;
 			children = (
 				F8B5018EF367CCE379CB47C9 /* ConversationEntry.swift */,
+				C2E6DCABB7F4D772D8725A84 /* ConversationSession.swift */,
 				7AFD7AD79D0BD65050FAB9F1 /* GlossaryItem.swift */,
 				2E281ADE59C76E5837B18E0F /* SessionAuth.swift */,
 			);
@@ -292,6 +298,8 @@
 				D0141A46CE67E2DAE966101B /* ConfigService.swift in Sources */,
 				5C07A19AB317C18F63642017 /* ContentView.swift in Sources */,
 				9CC14F980D6DF4FEF30F399F /* ConversationEntry.swift in Sources */,
+				7B6702A349F2F3F9F4E8C8D4 /* ConversationSession.swift in Sources */,
+				911427A848240102DEE56DE8 /* ConversationTreeView.swift in Sources */,
 				64F6B859F93C20CDC67C860A /* ConvexService.swift in Sources */,
 				A016FE205172309EDA3F586D /* GlossaryItem.swift in Sources */,
 				5B6E68F4E50F3F779A29F5D0 /* HistoryGlossaryView.swift in Sources */,

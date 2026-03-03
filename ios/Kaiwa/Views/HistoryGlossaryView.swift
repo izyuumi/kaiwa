@@ -5,18 +5,8 @@ struct HistoryGlossaryView: View {
     @ObservedObject var viewModel: SessionViewModel
 
     @State private var selectedTab = 0
-    @State private var searchText = ""
     @State private var newSource = ""
     @State private var newTarget = ""
-
-    private var filteredHistory: [ConversationEntry] {
-        let q = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !q.isEmpty else { return viewModel.historyEntries }
-        return viewModel.historyEntries.filter {
-            $0.jp.localizedCaseInsensitiveContains(q) ||
-            $0.en.localizedCaseInsensitiveContains(q)
-        }
-    }
 
     var body: some View {
         NavigationStack {
@@ -48,11 +38,8 @@ struct HistoryGlossaryView: View {
 
     private var historyContent: some View {
         VStack(spacing: 10) {
-            TextField("Search history", text: $searchText)
-                .textFieldStyle(.roundedBorder)
-
             HStack {
-                Text("\(viewModel.historyEntries.count) entries")
+                Text("\(viewModel.sessions.count) session\(viewModel.sessions.count == 1 ? "" : "s")")
                     .font(.caption)
                     .foregroundColor(.gray)
                 Spacer()
@@ -63,27 +50,7 @@ struct HistoryGlossaryView: View {
                 .foregroundColor(.red)
             }
 
-            List(filteredHistory) { entry in
-                VStack(alignment: .leading, spacing: 6) {
-                    Text(entry.timestamp, style: .time)
-                        .font(.caption2)
-                        .foregroundColor(.gray)
-                    Text("\(entry.jp)  ↔  \(entry.en)")
-                        .foregroundColor(.white)
-                        .font(.body)
-                        .lineLimit(4)
-                }
-                .listRowBackground(Color.black)
-                .swipeActions(edge: .trailing) {
-                    Button(role: .destructive) {
-                        viewModel.removeHistoryEntry(id: entry.id)
-                    } label: {
-                        Text("Delete")
-                    }
-                }
-            }
-            .scrollContentBackground(.hidden)
-            .background(Color.black)
+            ConversationTreeView(viewModel: viewModel)
         }
     }
 

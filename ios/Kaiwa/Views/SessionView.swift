@@ -181,8 +181,41 @@ struct SessionView: View {
                     .padding(.horizontal, 24)
                     .padding(.top, 12)
             }
+
+            // Branch pending indicator
+            if let branchId = viewModel.pendingBranchParentId,
+               let parent = viewModel.sessions.first(where: { $0.id == branchId }) {
+                HStack(spacing: 6) {
+                    Image(systemName: "arrow.turn.down.right")
+                        .font(.caption2)
+                        .foregroundColor(.green)
+                    Text("Branching from: \(branchLabel(parent))")
+                        .font(.caption2)
+                        .foregroundColor(.green.opacity(0.9))
+                    Button {
+                        viewModel.clearNextSessionBranch()
+                    } label: {
+                        Image(systemName: "xmark.circle.fill")
+                            .font(.caption2)
+                            .foregroundColor(.gray)
+                    }
+                }
+                .padding(.horizontal, 16)
+                .padding(.vertical, 6)
+                .background(Capsule().fill(Color.green.opacity(0.12)))
+                .padding(.top, 8)
+            }
+
             Spacer()
         }
+    }
+
+    private func branchLabel(_ session: ConversationSession) -> String {
+        if let label = session.label { return label }
+        let f = DateFormatter()
+        f.dateStyle = .short
+        f.timeStyle = .short
+        return f.string(from: session.startedAt)
     }
 
     private var shareButton: some View {

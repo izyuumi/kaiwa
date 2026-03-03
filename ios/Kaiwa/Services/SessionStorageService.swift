@@ -4,18 +4,24 @@ actor SessionStorageService {
     private let userDefaults: UserDefaults
     private let historyKey: String
     private let glossaryKey: String
+    private let sessionsKey: String
     private let maxHistoryEntries: Int
+    private let maxSessions: Int
 
     init(
         userDefaults: UserDefaults = .standard,
         historyKey: String = "kaiwa.history.entries",
         glossaryKey: String = "kaiwa.history.glossary",
-        maxHistoryEntries: Int = 500
+        sessionsKey: String = "kaiwa.sessions.v1",
+        maxHistoryEntries: Int = 500,
+        maxSessions: Int = 200
     ) {
         self.userDefaults = userDefaults
         self.historyKey = historyKey
         self.glossaryKey = glossaryKey
+        self.sessionsKey = sessionsKey
         self.maxHistoryEntries = maxHistoryEntries
+        self.maxSessions = maxSessions
     }
 
     func loadHistory() -> [ConversationEntry] {
@@ -35,6 +41,18 @@ actor SessionStorageService {
 
     func saveGlossary(_ items: [GlossaryItem]) {
         encode(items, forKey: glossaryKey)
+    }
+
+    // MARK: - Conversation Sessions
+
+    func loadSessions() -> [ConversationSession] {
+        decode(forKey: sessionsKey, defaultValue: [ConversationSession]())
+            .sorted { $0.startedAt > $1.startedAt }
+    }
+
+    func saveSessions(_ sessions: [ConversationSession]) {
+        let trimmed = Array(sessions.prefix(maxSessions))
+        encode(trimmed, forKey: sessionsKey)
     }
 
     private func decode<T: Decodable>(forKey key: String, defaultValue: T) -> T {

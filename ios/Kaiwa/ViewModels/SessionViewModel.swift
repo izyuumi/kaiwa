@@ -18,6 +18,10 @@ class SessionViewModel: ObservableObject {
     @Published var state: SessionState = .idle
     @Published var entries: [ConversationEntry] = []
     @Published var historyEntries: [ConversationEntry] = []
+    /// All saved conversation sessions (tree structure via parentSessionId).
+    @Published var sessions: [ConversationSession] = []
+    /// When set, the next recorded session will be a branch of this session.
+    @Published var pendingBranchParentId: UUID? = nil
     @Published var interimText: String = ""
     @Published var interimLanguage: String = ""
     @Published var interimConfidence: Double?
@@ -37,6 +41,10 @@ class SessionViewModel: ObservableObject {
     private var pendingTranslations: [PendingTranslation] = []
     private var translationWorkerTask: Task<Void, Never>?
     private var currentlyTranslatingId: UUID?
+
+    /// Translated entries accumulated during the current live session.
+    private var currentSessionTranslatedEntries: [ConversationEntry] = []
+    private var currentSessionStartedAt: Date = Date()
 
     private let maxPendingTranslations = 8
     private let coalesceWindowSeconds = 0.8
@@ -60,6 +68,36 @@ class SessionViewModel: ObservableObject {
         }
     }
 
+    // MARK: - Branching
+
+    /// Mark the next session as a branch of the given session.
+    func setNextSessionBranch(parentId: UUID) {
+        pendingBranchParentId = parentId
+    }
+
+    /// Clear any pending branch (next session will be a new root).
+    func clearNextSessionBranch() {
+        pendingBranchParentId = nil
+    }
+
+    /// Delete a session (and recursively its branches) by id.
+    func deleteSession(id: UUID) {
+        var toDelete: Set<UUID> = [id]
+        var changed = true
+        while changed {
+            changed = false
+            for s in sessions where !toDelete.contains(s.id),
+                let pid = s.parentSessionId, toDelete.contains(pid) {
+                toDelete.insert(s.id)
+                changed = true
+            }
+        }
+        sessions.removeAll { toDelete.contains($0.id) }
+        Task { await storageService.saveSessions(sessions) }
+    }
+
+    // MARK: - Session control
+
     func startSession() async {
         if case .connecting = state { return }
         if case .listening = state { return }
@@ -70,6 +108,8 @@ class SessionViewModel: ObservableObject {
         interimText = ""
         interimLanguage = ""
         interimConfidence = nil
+        currentSessionTranslatedEntries = []
+        currentSessionStartedAt = Date()
 
         do {
             audioService.stop()
@@ -124,12 +164,36 @@ class SessionViewModel: ObservableObject {
         isStoppingSession = true
         audioService.stop()
         await sonioxService.disconnect()
+
+        // Wait briefly for any in-flight translation workers to finish
+        translationWorkerTask?.cancel()
+        translationWorkerTask = nil
+
         // Increment session count if we had any conversation entries
         if !entries.isEmpty {
             let key = "kaiwa.totalSessions"
             let current = UserDefaults.standard.integer(forKey: key)
             UserDefaults.standard.set(current + 1, forKey: key)
         }
+
+        // Save as a ConversationSession if we translated anything
+        let translatedEntries = currentSessionTranslatedEntries
+        if !translatedEntries.isEmpty {
+            let newSession = ConversationSession(
+                startedAt: currentSessionStartedAt,
+                endedAt: Date(),
+                entries: translatedEntries,
+                parentSessionId: pendingBranchParentId
+            )
+            sessions.insert(newSession, at: 0)
+            pendingBranchParentId = nil
+            currentSessionTranslatedEntries = []
+            Task { await storageService.saveSessions(sessions) }
+        } else {
+            // Clear branch even if session was empty
+            pendingBranchParentId = nil
+        }
+
         state = .idle
         interimText = ""
         interimLanguage = ""
@@ -139,8 +203,10 @@ class SessionViewModel: ObservableObject {
 
     func clearHistory() {
         historyEntries = []
+        sessions = []
         Task {
             await storageService.saveHistory([])
+            await storageService.saveSessions([])
         }
     }
 
@@ -185,6 +251,22 @@ class SessionViewModel: ObservableObject {
     private func loadPersistedState() async {
         historyEntries = await storageService.loadHistory()
         glossaryItems = await storageService.loadGlossary()
+        var loadedSessions = await storageService.loadSessions()
+
+        // Migrate flat history entries into a single legacy session if needed
+        if loadedSessions.isEmpty && !historyEntries.isEmpty {
+            let legacyEntries = historyEntries.sorted { $0.timestamp < $1.timestamp }
+            let legacySession = ConversationSession(
+                startedAt: legacyEntries.first?.timestamp ?? Date(),
+                endedAt: legacyEntries.last?.timestamp ?? Date(),
+                entries: legacyEntries,
+                label: "Previous history"
+            )
+            loadedSessions = [legacySession]
+            await storageService.saveSessions(loadedSessions)
+        }
+
+        sessions = loadedSessions
     }
 
     private func sessionAuth() async throws -> SessionAuthResponse {
@@ -316,6 +398,7 @@ class SessionViewModel: ObservableObject {
 
                     if let finished = self.entries.first(where: { $0.id == current.entryId }) {
                         self.historyEntries.insert(finished, at: 0)
+                        self.currentSessionTranslatedEntries.append(finished)
                         await self.storageService.saveHistory(self.historyEntries)
                     }
                 } catch {

@@ -10,6 +10,7 @@
 
 import type * as session from "../session.js";
 import type * as translate from "../translate.js";
+import type * as users from "../users.js";
 
 import type {
   ApiFromModules,
@@ -20,6 +21,7 @@ import type {
 declare const fullApi: ApiFromModules<{
   session: typeof session;
   translate: typeof translate;
+  users: typeof users;
 }>;
 
 /**

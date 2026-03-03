@@ -14,16 +14,22 @@ export const ensureUser = mutation({
       .withIndex("by_clerkId", (q) => q.eq("clerkId", clerkId))
       .unique();
 
+    const now = Date.now();
+
     if (existing) {
-      return { isApproved: existing.isApproved };
+      await ctx.db.patch(existing._id, { lastSeenAt: now, updatedAt: now });
+      return { isApproved: existing.isManuallyApproved || existing.hasActiveSubscription };
     }
 
     await ctx.db.insert("users", {
       clerkId,
       email: identity.email,
       name: identity.name,
-      isApproved: false,
-      createdAt: Date.now(),
+      isManuallyApproved: false,
+      hasActiveSubscription: false,
+      createdAt: now,
+      updatedAt: now,
+      lastSeenAt: now,
     });
 
     return { isApproved: false };
@@ -60,7 +66,7 @@ export const getApprovalStatus = internalQuery({
       .withIndex("by_clerkId", (q) => q.eq("clerkId", identity.subject))
       .unique();
 
-    if (!user || !user.isApproved) {
+    if (!user || (!user.isManuallyApproved && !user.hasActiveSubscription)) {
       throw new Error("Account not approved");
     }
 

@@ -6,7 +6,10 @@ export default defineSchema({
     clerkId: v.string(),
     email: v.optional(v.string()),
     name: v.optional(v.string()),
-    isApproved: v.boolean(),
-    createdAt: v.number(),
+    isManuallyApproved: v.boolean(),
+    hasActiveSubscription: v.boolean(),
+    createdAt: v.float64(),
+    updatedAt: v.optional(v.float64()),
+    lastSeenAt: v.optional(v.float64()),
   }).index("by_clerkId", ["clerkId"]),
 });

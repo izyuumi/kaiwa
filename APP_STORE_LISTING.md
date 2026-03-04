@@ -96,4 +96,4 @@ https://github.com/izyuumi/kaiwa
 - [ ] Create 3–5 screenshots at 1320×2868px (iPhone 6.9")
 - [ ] Upload to App Store Connect and fill in this copy
 - [ ] Set pricing (suggest: Free with waitlist/invite model for early access)
-- [ ] Add Privacy Policy URL (required if any data collected)
+- [x] Privacy Policy URL: https://github.com/izyuumi/kaiwa/blob/main/PRIVACY_POLICY.md

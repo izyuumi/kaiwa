@@ -1,8 +1,13 @@
 import SwiftUI
+import UIKit
 
 struct SessionView: View {
     @ObservedObject var viewModel: SessionViewModel
     let onBack: () -> Void
+
+    @State private var sessionStart: Date?
+    @State private var elapsedTime: TimeInterval = 0
+    @State private var timer: Timer?
 
     var body: some View {
         ZStack {
@@ -30,6 +35,32 @@ struct SessionView: View {
         }
         .task {
             await viewModel.startSession()
+        }
+        .onAppear {
+            UIApplication.shared.isIdleTimerDisabled = true
+            AppDelegate.orientationLock = .portrait
+        }
+        .onDisappear {
+            UIApplication.shared.isIdleTimerDisabled = false
+            AppDelegate.orientationLock = .all
+            timer?.invalidate()
+        }
+        .onChange(of: viewModel.state) { _, newState in
+            if case .listening = newState {
+                if sessionStart == nil {
+                    sessionStart = Date()
+                    timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+                        if let start = sessionStart {
+                            elapsedTime = Date().timeIntervalSince(start)
+                        }
+                    }
+                }
+            } else if case .idle = newState {
+                timer?.invalidate()
+                timer = nil
+                sessionStart = nil
+                elapsedTime = 0
+            }
         }
     }
 
@@ -86,6 +117,13 @@ struct SessionView: View {
                     .padding(.horizontal, 24)
                     .padding(.top, 12)
             }
+            // Session duration timer
+            if sessionStart != nil {
+                Text(formatDuration(elapsedTime))
+                    .font(.system(.caption, design: .monospaced))
+                    .foregroundColor(.white.opacity(0.4))
+                    .padding(.top, 8)
+            }
             Spacer()
 
             // Back to home button
@@ -141,5 +179,11 @@ struct SessionView: View {
             .frame(width: 56, height: 56)
             .background(Circle().fill(Color.white.opacity(0.1)).blur(radius: 0.5))
             .overlay(Circle().stroke(color.opacity(0.5), lineWidth: 1))
+    }
+
+    private func formatDuration(_ interval: TimeInterval) -> String {
+        let mins = Int(interval) / 60
+        let secs = Int(interval) % 60
+        return String(format: "%02d:%02d", mins, secs)
     }
 }

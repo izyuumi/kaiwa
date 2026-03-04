@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "white.jpg",
+      "filename" : "kaiwa_icon.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
@@ -13,7 +13,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "white 1.jpg",
+      "filename" : "kaiwa_icon.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
@@ -25,7 +25,7 @@
           "value" : "tinted"
         }
       ],
-      "filename" : "white 2.jpg",
+      "filename" : "kaiwa_icon.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"

@@ -44,3 +44,4 @@ targets:
           - UIInterfaceOrientationPortrait
         NSMicrophoneUsageDescription: "Kaiwa needs microphone access to transcribe and translate conversations in real-time."
         UIRequiresFullScreen: true
+        ITSAppUsesNonExemptEncryption: false

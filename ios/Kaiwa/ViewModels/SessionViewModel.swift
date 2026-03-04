@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 
 enum SessionState {
     case idle
@@ -89,6 +90,7 @@ class SessionViewModel: ObservableObject {
                     detectedLanguage: language
                 ))
                 self.interimText = ""
+                UIImpactFeedbackGenerator(style: .light).impactOccurred()
             } catch {
                 print("Translation error: \(error)")
                 let isJapanese = language.hasPrefix("ja")
@@ -98,6 +100,7 @@ class SessionViewModel: ObservableObject {
                     detectedLanguage: language
                 ))
                 self.interimText = ""
+                UINotificationFeedbackGenerator().notificationOccurred(.error)
             }
         }
     }

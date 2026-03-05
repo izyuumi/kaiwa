@@ -2,9 +2,16 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<!-- Convex deployment URL — find in your Convex dashboard under Settings > URL & Deploy Key -->
+	<!-- This value is intentionally non-secret: it is embedded in the app binary and used for client-side API calls -->
 	<key>ConvexURL</key>
-	<string>https://your-deployment.convex.cloud</string>
+	<string>https://YOUR_DEPLOYMENT.convex.cloud</string>
+
+	<!-- Clerk publishable key — find in Clerk dashboard under API Keys -->
+	<!-- Publishable keys (pk_live_* or pk_test_*) are client-facing and will be embedded in the app binary. -->
+	<!-- They do not grant privileged access, but should not be committed to version control -->
+	<!-- so they can be rotated without a public git history trail. -->
 	<key>ClerkPublishableKey</key>
-	<string>pk_test_your-publishable-key</string>
+	<string>pk_live_YOUR_CLERK_PUBLISHABLE_KEY</string>
 </dict>
 </plist>

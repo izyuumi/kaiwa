@@ -10,3 +10,7 @@ ios/DerivedData/
 *.xcworkspace
 !ios/Kaiwa.xcodeproj
 .DS_Store
+
+# Config.plist contains API keys — never commit the real file.
+# Create your own from ios/Kaiwa/Config.plist.example
+ios/Kaiwa/Config.plist

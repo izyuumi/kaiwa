@@ -1,0 +1,20 @@
+/* ContentView */
+"Real-time Translation" = "Real-time Translation";
+"Sign In" = "Sign In";
+
+/* AuthSheet */
+"Sign in to Kaiwa" = "Sign in to Kaiwa";
+
+/* SetupView */
+"Choose layout" = "Choose layout";
+"Start Session" = "Start Session";
+"Your account is pending approval.\nPlease contact the administrator." = "Your account is pending approval.\nPlease contact the administrator.";
+
+/* SessionView */
+"End Session" = "End Session";
+
+/* TranscriptView */
+"Listening..." = "Listening...";
+
+/* SessionViewModel — runtime error messages */
+"Connection lost" = "Connection lost";

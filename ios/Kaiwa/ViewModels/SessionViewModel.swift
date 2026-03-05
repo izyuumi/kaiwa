@@ -142,7 +142,7 @@ extension SessionViewModel: SonioxServiceDelegate {
     nonisolated func sonioxDidDisconnect() {
         Task { @MainActor in
             if case .listening = self.state {
-                self.state = .error("Connection lost")
+                self.state = .error(NSLocalizedString("Connection lost", comment: "Error shown when the WebSocket connection drops during an active listening session"))
             }
         }
     }

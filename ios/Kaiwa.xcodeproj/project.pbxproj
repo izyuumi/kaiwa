@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA00BB11CC22AA00BB11CC22 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BB00CC11DD22BB00CC11DD22 /* Localizable.strings */; };
 		043843FB6C2703FDE7B2EF2A /* SetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91D5E339F11D3B77C34A7E0 /* SetupView.swift */; };
 		0B7C59B1EB80C697649DCFBA /* SessionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FAAA2AAF9F7C64C5E2F2BE /* SessionViewModel.swift */; };
 		22CF99D3FDE38614D7C1C72E /* SonioxService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768FF0391DC3415DC4B614C4 /* SonioxService.swift */; };
@@ -47,7 +48,21 @@
 		D91D5E339F11D3B77C34A7E0 /* SetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupView.swift; sourceTree = "<group>"; };
 		DC98AF3C3DA66CEE624E4233 /* AuthSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSheet.swift; sourceTree = "<group>"; };
 		F8B5018EF367CCE379CB47C9 /* ConversationEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationEntry.swift; sourceTree = "<group>"; };
+		CC00DD11EE22CC00DD11EE22 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		DD00EE11FF22DD00EE11FF22 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXVariantGroup section */
+		BB00CC11DD22BB00CC11DD22 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CC00DD11EE22CC00DD11EE22 /* en */,
+				DD00EE11FF22DD00EE11FF22 /* ja */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		31121DCE561DE0694BBDD58F /* Frameworks */ = {
@@ -85,6 +100,7 @@
 		249E0557785090128FCC8AD0 /* Kaiwa */ = {
 			isa = PBXGroup;
 			children = (
+				BB00CC11DD22BB00CC11DD22 /* Localizable.strings */,
 				AE771FD82F4589F800EB409E /* Assets.xcassets */,
 				2CEADE429A21658E7E1E298E /* Config.plist */,
 				8A100E10EA34F0AA4E77A180 /* Config.plist.example */,
@@ -175,6 +191,7 @@
 			knownRegions = (
 				Base,
 				en,
+				ja,
 			);
 			mainGroup = 994BE6106EB7422322CA7DCF;
 			minimizedProjectReferenceProxies = 1;
@@ -194,6 +211,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA00BB11CC22AA00BB11CC22 /* Localizable.strings in Resources */,
 				AE771FD92F4589F800EB409E /* Assets.xcassets in Resources */,
 				EB2321780B0BC33529C96AB9 /* Config.plist in Resources */,
 				5F35F91365760904FD865DCB /* Config.plist.example in Resources */,

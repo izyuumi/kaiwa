@@ -121,7 +121,8 @@ _Note: Japanese description localization is optional for v1.0 — English descri
 
 | Data type | Collected? | Purpose | Linked to user? | Tracking? |
 |---|---|---|---|---|
-| Audio (microphone) | Yes (processed, not stored) | App functionality — speech transcription | No | No |
+| Audio (microphone) | Yes (processed, not stored) | App functionality — speech transcription via Soniox | No | No |
+| User Content (transcribed text) | Yes (sent to OpenAI for translation) | App functionality — real-time translation | No | No |
 | Usage data | Yes (crash reports via Expo) | App debugging | No | No |
 | Name, email (Clerk) | Yes | Account authentication | Yes | No |
 | Purchase history | Yes (subscription status) | Subscription gating | Yes | No |
@@ -135,11 +136,14 @@ _Note: Japanese description localization is optional for v1.0 — English descri
 - Purchases → Purchase history (subscription gating)
 
 **Data Not Linked to You:**
+- User Content → Transcribed speech text sent to OpenAI for translation
 - Usage Data (crash analytics)
 
 ### Notes for Apple Reviewer
 - Audio is processed by Soniox (third-party STT service) in real time; no audio is stored by Kaiwa or Soniox beyond the transcription request
-- Translation is handled by the Convex backend; conversation text is not persisted server-side beyond the session
+- Transcribed text (not audio) is sent to OpenAI GPT-4o-mini for translation; raw audio never reaches OpenAI
+- OpenAI API data usage policy: https://platform.openai.com/docs/models/how-we-use-your-data (API inputs not used for model training; retained up to 30 days for trust and safety)
+- Translation routing is via the Convex backend; conversation text is not persisted server-side beyond the session
 - Privacy policy URL: https://github.com/izyuumi/kaiwa/blob/main/PRIVACY_POLICY.md
 
 ---

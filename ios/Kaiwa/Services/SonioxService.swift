@@ -126,9 +126,13 @@ final class SonioxService: @unchecked Sendable {
         // Check for finished
         if text.contains("\"finished\"") { return }
 
-        // Check for error
+        // Check for error — distinguish key expiry from other server errors.
         if text.contains("\"error_code\"") {
-            delegate?.sonioxDidEncounterError(SonioxError.serverError(text))
+            let isKeyExpired = text.contains("INVALID_API_KEY")
+                || text.contains("KEY_EXPIRED")
+                || text.contains("UNAUTHORIZED")
+            let error: SonioxError = isKeyExpired ? .keyExpired : .serverError(text)
+            delegate?.sonioxDidEncounterError(error)
             return
         }
 
@@ -176,11 +180,18 @@ final class SonioxService: @unchecked Sendable {
 enum SonioxError: Error, LocalizedError {
     case invalidURL
     case serverError(String)
+    /// The ephemeral Soniox API key has expired (max lifetime: 1 hour).
+    /// Shown to users who run a session longer than 1 hour.
+    case keyExpired
 
     var errorDescription: String? {
         switch self {
-        case .invalidURL: return "Invalid Soniox WebSocket URL"
+        case .invalidURL:       return "Invalid Soniox WebSocket URL"
         case .serverError(let msg): return "Soniox error: \(msg)"
+        case .keyExpired:       return NSLocalizedString(
+            "Session limit reached — tap End Session and start a new one.",
+            comment: "Shown when the 1-hour Soniox ephemeral key expires mid-session"
+        )
         }
     }
 }

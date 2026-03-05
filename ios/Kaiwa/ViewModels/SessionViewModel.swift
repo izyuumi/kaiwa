@@ -135,7 +135,18 @@ extension SessionViewModel: SonioxServiceDelegate {
 
     nonisolated func sonioxDidEncounterError(_ error: Error) {
         Task { @MainActor in
-            self.state = .error(error.localizedDescription)
+            // Key expiry gets a clear, actionable user message.
+            // Other errors surface the localized description.
+            if case SonioxError.keyExpired = error {
+                self.state = .error(
+                    NSLocalizedString(
+                        "Session limit reached — tap End Session and start a new one.",
+                        comment: "Shown when the 1-hour Soniox ephemeral key expires mid-session"
+                    )
+                )
+            } else {
+                self.state = .error(error.localizedDescription)
+            }
         }
     }
 
